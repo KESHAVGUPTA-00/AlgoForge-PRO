@@ -1,0 +1,1064 @@
+<!--
+================================================================================
+Project: AlgoForge Pro Enterprise
+Author: Keshav Gupta (c) 2026. All Rights Reserved.
+Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ALGOFORGE ENTERPRISE - Autonomous DSA Intelligence Suite</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    /* 3D Embossed Luxury Gold Seal */
+    .gold-wax-seal {
+      background: radial-gradient(circle at 35% 35%, #fde047 0%, #eab308 30%, #ca8a04 70%, #854d0e 100%);
+      box-shadow: 0 4px 14px rgba(202, 138, 4, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+      border: 3px dashed #fef08a;
+    }
+    
+    @media print {
+      body * { visibility: hidden; }
+      #certificatePrintArea, #certificatePrintArea * { visibility: visible; }
+      #certificatePrintArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 4px double #4338ca !important;
+        box-shadow: none !important;
+        padding: 24px !important;
+      }
+      .no-print { display: none !important; }
+      .print-text-dark { color: #0f172a !important; }
+      .print-bg-light { background: #f8fafc !important; border-color: #cbd5e1 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
+
+  <!-- Main App Wrapper -->
+  <div class="flex-grow">
+    <!-- Navigation Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Brand trigger: Click to view complete project blueprint -->
+        <div onclick="openAboutModal()" class="flex items-center space-x-3 cursor-pointer group select-none">
+          <div class="p-2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 rounded-xl shadow-lg shadow-indigo-500/25 border border-indigo-400/20 group-hover:scale-105 transition">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-indigo-300 via-purple-200 to-pink-300 bg-clip-text text-transparent uppercase group-hover:text-indigo-300 transition">
+                AlgoForge Pro
+              </h1>
+              <span class="text-[10px] bg-indigo-950 border border-indigo-800 text-indigo-400 font-mono px-1.5 py-0.5 rounded flex items-center gap-1">
+                <i data-lucide="info" class="w-3 h-3"></i> System Docs
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">Autonomous DSA Optimization Suite • <span class="text-indigo-400 underline">Click to inspect</span></p>
+          </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-2.5">
+          <!-- Direct Google Gemini AI Link -->
+          <a href="https://gemini.google.com" target="_blank" class="hidden lg:flex items-center gap-1.5 bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-purple-900/40 border border-blue-500/40 hover:border-blue-400 text-blue-300 text-xs px-3 py-1.5 rounded-xl transition shadow-sm hover:scale-[1.02]">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-400"></i>
+            <span>Ask Gemini AI</span>
+          </a>
+
+          <button onclick="fetchRandomChallenge()" class="hidden md:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-xl transition">
+            <i data-lucide="shuffle" class="w-4 h-4 text-indigo-400"></i>
+            <span>Random Challenge</span>
+          </button>
+
+          <button id="notifyBtn" onclick="requestNotificationAccess()" class="hidden sm:flex items-center gap-1.5 bg-amber-950/40 border border-amber-800/60 hover:border-amber-600 text-amber-300 text-xs px-3 py-1.5 rounded-xl transition">
+            <i data-lucide="bell-ring" class="w-4 h-4"></i>
+            <span id="notifyBtnText">Reminders</span>
+          </button>
+
+          <button onclick="generateReportCard()" class="flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 border border-amber-500/50 hover:border-amber-400 text-amber-300 text-xs px-3.5 py-1.5 rounded-xl transition font-semibold shadow-lg shadow-amber-500/10">
+            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+            <span>Verified Certificate</span>
+          </button>
+
+          <button onclick="openAuthModal()" class="flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span id="navUserName">Account</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Dashboard -->
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Left Column: User Intelligence & Actions -->
+      <div class="lg:col-span-1 space-y-6">
+
+        <!-- Candidate Credentials Card -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 id="profName" class="text-lg font-bold text-white tracking-wide">Candidate</h2>
+              <p id="profRole" class="text-xs text-slate-400">Role: Software Engineer</p>
+            </div>
+            <span id="profLevelBadge" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-indigo-950 border border-indigo-800 text-indigo-400">
+              Beginner
+            </span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-300">
+            <span>Primary Language: <b id="profLanguage" class="text-indigo-400 font-mono">C++</b></span>
+            <span>Target Today: <b id="targetCount" class="text-indigo-400 font-mono">3</b></span>
+          </div>
+        </div>
+
+        <!-- Real-Time Activity Calendar -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4 text-indigo-400"></i> Execution Calendar
+            </h3>
+            <span id="calendarMonthYear" class="text-xs font-mono text-slate-400"></span>
+          </div>
+
+          <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-500 font-semibold mb-1">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div id="calendarGrid" class="grid grid-cols-7 gap-1.5"></div>
+        </div>
+
+        <!-- Problem Entry Form -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-base font-semibold mb-3 flex items-center gap-2 text-indigo-300">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i> Record Problem Solution
+          </h3>
+
+          <form id="problemForm" class="space-y-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Problem Statement / Title</label>
+              <input type="text" id="title" required placeholder="e.g. Subarray Sum Equals K"
+                     class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Topic / Category</label>
+                <input type="text" id="topic" required placeholder="e.g. Sliding Window"
+                       class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Difficulty</label>
+                <select id="difficulty" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                  <option value="Easy">Easy</option>
+                  <option value="Medium" selected>Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Evaluation Platform</label>
+              <select id="platform" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                <option value="LeetCode" selected>LeetCode</option>
+                <option value="Codeforces">Codeforces</option>
+                <option value="GeeksforGeeks">GeeksforGeeks</option>
+                <option value="CodeChef">CodeChef</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Source URL (Optional)</label>
+              <input type="url" id="problem_url" placeholder="https://..."
+                     class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Algorithmic Intuition & Complexity</label>
+              <textarea id="notes" rows="2" placeholder="Hashmap frequency counting with O(N) time and O(N) space..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+              <i data-lucide="check" class="w-4 h-4"></i> Commit Record
+            </button>
+          </form>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="bg-rose-950/20 border border-rose-900/40 rounded-2xl p-4">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1 flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Data Management Controls
+          </h4>
+          <p class="text-[11px] text-slate-400 mb-3">Permanently purge all solved problems and reset tracking records.</p>
+          <button onclick="purgeAllRecords()" class="w-full bg-rose-900/30 hover:bg-rose-600 border border-rose-700/50 hover:border-rose-500 text-rose-300 hover:text-white text-xs font-semibold py-2 rounded-lg transition flex items-center justify-center gap-2">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Purge All Tracked Problems
+          </button>
+        </div>
+      </div>
+
+      <!-- Right 2 Columns: Intelligence Dashboard -->
+      <div class="lg:col-span-2 space-y-6">
+
+        <!-- Curated Reservoir Recommendations -->
+        <div class="bg-gradient-to-r from-indigo-950/50 via-purple-950/30 to-slate-900 border border-indigo-900/40 rounded-2xl p-5 shadow-lg">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">Algorithmic Problem Reservoir</h3>
+            </div>
+            <button onclick="fetchRandomChallenge()" class="text-xs text-indigo-300 hover:underline flex items-center gap-1">
+              <i data-lucide="refresh-cw" class="w-3 h-3"></i> Shuffle Discovery
+            </button>
+          </div>
+          <div id="recContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Chart Matrix -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-purple-400"></i> Cognitive Mastery Matrix
+          </h3>
+          <div class="h-44 flex items-center justify-center">
+            <canvas id="difficultyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Spaced Repetition Due Queue -->
+        <section>
+          <h3 class="text-base font-semibold text-amber-300 mb-3 flex items-center gap-2">
+            <i data-lucide="alarm-clock" class="w-5 h-5"></i> Scheduled Retention Due
+          </h3>
+          <div id="dueList" class="space-y-2.5"></div>
+        </section>
+
+        <!-- Tracked Records Explorer -->
+        <section class="pt-4 border-t border-slate-800">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                <i data-lucide="database" class="w-5 h-5"></i> Solved Question Bank
+              </h3>
+              <button id="clearDateFilterBtn" onclick="clearDateFilter()" class="hidden text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-full flex items-center gap-1">
+                <span id="filteredDateLabel"></span> <i data-lucide="x" class="w-3 h-3"></i>
+              </button>
+            </div>
+            <span id="allCountBadge" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">0 entries</span>
+          </div>
+          <div id="allList" class="space-y-2.5"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- EXECUTIVE CORPORATE FOOTER WITH GITHUB & LINKEDIN PROFILES -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/90 py-8 px-4 mt-12 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5">
+      
+      <!-- Brand & Ownership Statement -->
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-indigo-600/20 border border-indigo-500/30 rounded-xl text-indigo-400">
+          <i data-lucide="terminal" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="font-bold text-slate-200">
+            AlgoForge Enterprise Platform &copy; 2026
+          </p>
+          <p class="text-[11px] text-slate-400 mt-0.5">
+            Architected, Developed & Maintained by <span class="text-indigo-300 font-semibold">Keshav Gupta</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Developer Profiles (LinkedIn & GitHub) -->
+      <div class="flex items-center gap-3">
+        <!-- GitHub Profile Link -->
+        <a href="https://github.com/KESHAVGUPTA-00" target="_blank" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-500 px-3 py-1.5 rounded-xl transition">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span class="font-medium">GitHub Profile</span>
+        </a>
+
+        <!-- LinkedIn Profile Link -->
+        <a href="https://www.linkedin.com/in/keshavgupta333" target="_blank" class="flex items-center gap-1.5 bg-indigo-950/60 hover:bg-indigo-900 text-indigo-200 border border-indigo-700/60 hover:border-indigo-500 px-3 py-1.5 rounded-xl transition">
+          <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i>
+          <span class="font-medium">LinkedIn Profile</span>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ABOUT ALGOFORGE PRO MODAL -->
+  <div id="aboutModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('aboutModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="p-3 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-lg text-white">
+          <i data-lucide="cpu" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-black text-white uppercase tracking-wide">About AlgoForge Pro</h2>
+          <p class="text-xs text-indigo-300 font-mono">System Architecture & Engineering Specification</p>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-white mb-1 flex items-center gap-2">
+            <i data-lucide="target" class="w-4 h-4 text-indigo-400"></i> Core Purpose & Problem Statement
+          </h4>
+          <p class="text-slate-400 text-xs leading-normal">
+            Most students solve hundreds of LeetCode problems but forget core intuitions during technical interviews. <b>AlgoForge Pro</b> is an algorithmic intelligence platform built to eliminate memory decay through automated <b>Spaced Repetition Scheduling</b> and real-time candidate verification.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-indigo-300 mb-1 flex items-center gap-1.5 text-xs uppercase">
+              <i data-lucide="repeat" class="w-4 h-4"></i> Spaced Repetition Engine
+            </h4>
+            <p class="text-[11px] text-slate-400">
+              Problems automatically queue up for revision at increasing mathematical intervals: <b>Day 1 &rarr; Day 3 &rarr; Day 7 &rarr; Day 14 &rarr; Day 30</b>.
+            </p>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-purple-300 mb-1 flex items-center gap-1.5 text-xs uppercase">
+              <i data-lucide="shield" class="w-4 h-4"></i> Cryptographic Auth & DB
+            </h4>
+            <p class="text-[11px] text-slate-400">
+              Built with Python FastAPI, SQLAlchemy ORM, SQLite datastore, and PBKDF2-HMAC-SHA256 salted password hashing for zero-dependency security.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-amber-400 mb-1 flex items-center gap-2 text-xs uppercase">
+            <i data-lucide="award" class="w-4 h-4"></i> Verified Dossier & QR Validation
+          </h4>
+          <p class="text-[11px] text-slate-400 leading-normal">
+            Generates a printable, verifiable candidate certificate featuring a real dynamic QR Code and credential seal issued under <b>Keshav Gupta (Founder & CEO)</b>, optimized for LinkedIn portfolios and recruiter review.
+          </p>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-4 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500">Author: Keshav Gupta • B.Tech Computer Science</span>
+        <button onclick="closeModal('aboutModal')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+          Close Blueprint
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem Inspection Modal (With Gemini Assistant Trigger) -->
+  <div id="detailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+      <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div class="flex items-center gap-2">
+        <span id="modalDiff" class="text-xs px-2 py-0.5 rounded border">Easy</span>
+        <span id="modalPlatform" class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">LeetCode</span>
+      </div>
+      <h3 id="modalTitle" class="text-xl font-bold text-white">Problem Statement</h3>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
+        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Topic Classification</p>
+        <p id="modalTopic" class="text-sm text-indigo-300 font-medium"></p>
+      </div>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
+        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Recorded Algorithmic Logic</p>
+        <p id="modalNotes" class="text-sm text-slate-300 whitespace-pre-line"></p>
+      </div>
+
+      <!-- Action Buttons with Gemini Assistance -->
+      <div class="pt-2 flex flex-col sm:flex-row gap-2">
+        <a id="modalProblemLink" href="#" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-1.5">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Open Platform
+        </a>
+        <button id="modalGeminiBtn" class="flex-1 bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition shadow">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Solve with Gemini
+        </button>
+        <button id="modalGoogleBtn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+          <i data-lucide="search" class="w-4 h-4"></i> Search Optimal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Gateway -->
+  <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+      <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 border-b border-slate-800 pb-3">
+        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1">Sign In</button>
+        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4">Create Account</button>
+        <button id="tabPrefBtn" onclick="switchAuthTab('pref')" class="text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4">Profile Config</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <form id="loginForm" class="space-y-3" onsubmit="handleLogin(event)">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Username</label>
+          <input type="text" id="loginUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Sign In</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="space-y-3 hidden" onsubmit="handleRegister(event)">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Full Legal Name</label>
+          <input type="text" id="regName" required placeholder="e.g. Keshav Gupta" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Username</label>
+            <input type="text" id="regUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Password</label>
+            <input type="password" id="regPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Primary Language</label>
+            <select id="regLanguage" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+              <option value="C++" selected>C++</option>
+              <option value="Java">Java</option>
+              <option value="Python">Python</option>
+              <option value="JavaScript">JavaScript</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Prior Solved Base</label>
+            <input type="number" id="regSolved" value="20" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Target Engineering Role</label>
+          <input type="text" id="regRole" value="Software Development Engineer" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Register Account</button>
+      </form>
+
+      <!-- Profile Config Form -->
+      <div id="prefForm" class="space-y-3 hidden">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Display Name</label>
+          <input type="text" id="editName" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Primary Implementation Language</label>
+          <select id="editLanguage" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+            <option value="C++">C++</option>
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+            <option value="JavaScript">JavaScript</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Historical Solved Benchmark</label>
+          <input type="number" id="editSolved" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Target Professional Role</label>
+          <input type="text" id="editRole" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <button onclick="saveProfile()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Update Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUXURY VERIFIED CERTIFICATE DOSSIER -->
+  <div id="reportCardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="certificatePrintArea" class="bg-slate-900 border-4 border-double border-indigo-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-10 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
+      
+      <button onclick="closeModal('reportCardModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="text-center border-b border-indigo-500/30 pb-6 relative">
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <i data-lucide="shield-check" class="w-8 h-8 text-amber-400"></i>
+          <span class="text-xs tracking-[0.3em] font-extrabold uppercase text-amber-400">ALGOFORGE • GLOBAL VERIFICATION STANDARDS</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white print-text-dark uppercase mt-1">
+          Certificate of Mastery
+        </h2>
+        <p class="text-xs text-indigo-300 font-mono mt-1">VALIDATED BY AUTONOMOUS SPACED REPETITION ENGINE</p>
+      </div>
+
+      <div class="text-center px-4 space-y-1">
+        <p class="text-xs text-slate-400 uppercase tracking-wider">This official dossier verifies that</p>
+        <h3 id="repName" class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-purple-300 print-text-dark">
+          Keshav Gupta
+        </h3>
+        <p class="text-xs text-slate-300 max-w-xl mx-auto leading-relaxed">
+          has successfully satisfied verified problem retention in Data Structures & Algorithmic Problem Solving targeting the role of <b id="repRole" class="text-white print-text-dark underline decoration-indigo-500">Software Development Engineer</b> using <b id="repLanguage" class="text-indigo-400">C++</b>.
+        </p>
+      </div>
+
+      <!-- Metrics Breakdown -->
+      <div class="grid grid-cols-4 gap-3 text-center bg-slate-950/70 p-4 rounded-2xl border border-slate-800 print-bg-light">
+        <div>
+          <p class="text-[10px] text-slate-400 uppercase font-bold">Total Solved</p>
+          <p id="repTotalSolved" class="text-xl md:text-2xl font-mono font-black text-indigo-400 mt-0.5">0</p>
+        </div>
+        <div>
+          <p class="text-[10px] text-emerald-400 uppercase font-bold">Easy</p>
+          <p id="repEasy" class="text-xl md:text-2xl font-mono font-black text-emerald-400 mt-0.5">0</p>
+        </div>
+        <div>
+          <p class="text-[10px] text-amber-400 uppercase font-bold">Medium</p>
+          <p id="repMed" class="text-xl md:text-2xl font-mono font-black text-amber-400 mt-0.5">0</p>
+        </div>
+        <div>
+          <p class="text-[10px] text-rose-400 uppercase font-bold">Hard</p>
+          <p id="repHard" class="text-xl md:text-2xl font-mono font-black text-rose-400 mt-0.5">0</p>
+        </div>
+      </div>
+
+      <!-- Verification Footer with 3D Embossed Gold Wax Seal & Signature -->
+      <div class="border-t border-indigo-500/30 pt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
+        <div class="flex items-center gap-3">
+          <div id="qrcodeBox" class="p-2 bg-white rounded-xl shadow-inner border border-slate-200"></div>
+          <div>
+            <p class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Scan to Verify</p>
+            <p id="repCertId" class="text-[11px] font-mono text-slate-400 font-semibold"></p>
+            <p id="reportDate" class="text-[10px] text-slate-500 font-mono"></p>
+          </div>
+        </div>
+
+        <!-- NEW: Hyper-Realistic 3D Embossed Gold Wax Seal -->
+        <div class="text-center hidden md:flex flex-col items-center justify-center">
+          <div class="w-16 h-16 rounded-full gold-wax-seal flex flex-col items-center justify-center text-amber-950 font-serif font-black select-none shadow-lg">
+            <span class="text-[9px] tracking-widest uppercase font-extrabold -mb-0.5">VERIFIED</span>
+            <span class="text-lg font-black leading-none">★</span>
+            <span class="text-[8px] tracking-wider uppercase font-bold">SEAL</span>
+          </div>
+          <span class="text-[9px] font-mono text-amber-400/90 font-semibold tracking-wider mt-1.5 uppercase">Cryptographic Stamp</span>
+        </div>
+
+        <!-- Official Executive Signature -->
+        <div class="text-right flex flex-col items-end">
+          <div class="font-serif italic text-2xl md:text-3xl text-indigo-300 print-text-dark tracking-wide select-none" style="font-family: 'Brush Script MT', cursive, serif;">
+            Keshav Gupta
+          </div>
+          <div class="w-36 h-[1.5px] bg-gradient-to-r from-transparent to-indigo-400 my-1"></div>
+          <p class="text-xs font-bold text-white print-text-dark">Keshav Gupta</p>
+          <p class="text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Founder & Chief Executive Officer (CEO)</p>
+        </div>
+      </div>
+
+      <!-- Corner Disclaimer Notice -->
+      <div class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
+        <span>Validation Endpoint: algoforge.enterprise/verify</span>
+        <span class="text-right italic">Notice: This is an academic project evaluation dossier generated for demonstration & candidate tracking purposes, not an accredited third-party degree.</span>
+      </div>
+
+      <div class="no-print pt-3 flex items-center justify-end">
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print Certificate (PDF)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let myChart = null;
+    let cachedProblems = [];
+    let calendarActivity = {};
+    let activeDateFilter = null;
+    let currentUserProfile = null;
+
+    const difficultyColors = {
+      Easy: "bg-emerald-950 text-emerald-400 border-emerald-800",
+      Medium: "bg-amber-950 text-amber-400 border-amber-800",
+      Hard: "bg-rose-950 text-rose-400 border-rose-800"
+    };
+
+    function openAboutModal() {
+      document.getElementById('aboutModal').classList.remove('hidden');
+    }
+
+    function checkNotificationStatus() {
+      if (!("Notification" in window)) return;
+      const btn = document.getElementById('notifyBtn');
+      const txt = document.getElementById('notifyBtnText');
+      if (Notification.permission === "granted") {
+        txt.innerText = "Reminders Active";
+        btn.classList.remove('hidden');
+        btn.classList.replace('bg-amber-950/40', 'bg-emerald-950/40');
+        btn.classList.replace('border-amber-800/60', 'border-emerald-800/60');
+        btn.classList.replace('text-amber-300', 'text-emerald-300');
+      } else if (Notification.permission !== "denied") {
+        btn.classList.remove('hidden');
+      }
+    }
+
+    async function requestNotificationAccess() {
+      if (!("Notification" in window)) return alert("Browser notifications unsupported.");
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        new Notification("AlgoForge Suite", {
+          body: "Push notification alert initialized.",
+          icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png"
+        });
+        checkNotificationStatus();
+      }
+    }
+
+    function triggerIncompleteTargetAlert(completed, target) {
+      if (Notification.permission === "granted" && completed < target) {
+        new Notification("AlgoForge Daily Target Alert ⚠️", {
+          body: `Attention: Only ${completed}/${target} algorithmic problems solved today. Execute one more to preserve streak!`,
+          icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png"
+        });
+      }
+    }
+
+    async function renderCalendar() {
+      const res = await fetch('/calendar/activity/');
+      calendarActivity = await res.json();
+
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById('calendarMonthYear').innerText = `${monthNames[month]} ${year}`;
+
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = "";
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        grid.innerHTML += `<div class="h-8"></div>`;
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const count = calendarActivity[dateStr] || 0;
+        const isToday = day === today.getDate();
+
+        let bgClass = "bg-slate-950 border-slate-800 text-slate-400";
+        if (count > 0) bgClass = "bg-indigo-600/30 border-indigo-500 text-indigo-300 font-bold";
+        if (isToday) bgClass += " ring-1 ring-amber-400";
+
+        grid.innerHTML += `
+          <button onclick="filterByDate('${dateStr}')" class="h-8 text-xs rounded-lg border flex flex-col items-center justify-center transition relative ${bgClass}">
+            <span>${day}</span>
+            ${count > 0 ? `<span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-0.5"></span>` : ''}
+          </button>
+        `;
+      }
+    }
+
+    function filterByDate(dateStr) {
+      activeDateFilter = dateStr;
+      document.getElementById('filteredDateLabel').innerText = `Date: ${dateStr}`;
+      document.getElementById('clearDateFilterBtn').classList.remove('hidden');
+      loadData();
+    }
+
+    function clearDateFilter() {
+      activeDateFilter = null;
+      document.getElementById('clearDateFilterBtn').classList.add('hidden');
+      loadData();
+    }
+
+    function renderChart(problems) {
+      const easy = problems.filter(p => p.difficulty === "Easy").length;
+      const medium = problems.filter(p => p.difficulty === "Medium").length;
+      const hard = problems.filter(p => p.difficulty === "Hard").length;
+
+      const ctx = document.getElementById('difficultyChart').getContext('2d');
+      if (myChart) myChart.destroy();
+
+      myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Easy', 'Medium', 'Hard'],
+          datasets: [{
+            data: [easy, medium, hard],
+            backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'],
+            borderColor: '#020617',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
+          }
+        }
+      });
+    }
+
+    async function loadProfileAndRecs() {
+      const res = await fetch('/profile/');
+      currentUserProfile = await res.json();
+
+      document.getElementById('profName').innerText = currentUserProfile.name;
+      document.getElementById('navUserName').innerText = currentUserProfile.name;
+      document.getElementById('profRole').innerText = `Role: ${currentUserProfile.target_role}`;
+      document.getElementById('profLevelBadge').innerText = currentUserProfile.experience_level;
+      document.getElementById('profLanguage').innerText = currentUserProfile.primary_language;
+
+      document.getElementById('editName').value = currentUserProfile.name;
+      document.getElementById('editSolved').value = currentUserProfile.solved_count;
+      document.getElementById('editRole').value = currentUserProfile.target_role;
+      document.getElementById('editLanguage').value = currentUserProfile.primary_language;
+
+      const recRes = await fetch(`/recommendations/?level=${encodeURIComponent(currentUserProfile.experience_level)}`);
+      const recs = await recRes.json();
+
+      renderRecommendations(recs);
+      lucide.createIcons();
+    }
+
+    function renderRecommendations(recs) {
+      const recBox = document.getElementById('recContainer');
+      recBox.innerHTML = recs.map(r => `
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex items-center justify-between gap-2">
+          <div>
+            <a href="${r.url}" target="_blank" class="text-xs font-bold text-indigo-300 hover:underline flex items-center gap-1">
+              ${r.title} <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+            <div class="flex items-center gap-1.5 mt-1">
+              <span class="text-[10px] px-1.5 py-0.2 rounded border ${difficultyColors[r.difficulty]}">${r.difficulty}</span>
+              <span class="text-[10px] text-slate-400">${r.topic}</span>
+            </div>
+          </div>
+          <button onclick="quickAddRec('${r.title}', '${r.topic}', '${r.difficulty}', '${r.platform}', '${r.url}')" 
+                  class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-lg border border-indigo-500/40 transition whitespace-nowrap">
+            + Log
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    async function fetchRandomChallenge() {
+      const res = await fetch('/discover/random');
+      const item = await res.json();
+      renderRecommendations([item]);
+    }
+
+    async function quickAddRec(title, topic, difficulty, platform, url) {
+      await fetch('/problems/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, topic, difficulty, platform, problem_url: url, notes: `Standard reservoir question logged for ${currentUserProfile ? currentUserProfile.primary_language : 'C++'}.` })
+      });
+      loadData();
+      renderCalendar();
+    }
+
+    async function loadData() {
+      const targetRes = await fetch('/target/');
+      const targetData = await targetRes.json();
+      document.getElementById('targetCount').innerText = targetData.target_count;
+
+      triggerIncompleteTargetAlert(targetData.completed_count, targetData.target_count);
+
+      const dueRes = await fetch('/problems/due-today/');
+      const dueProblems = await dueRes.json();
+
+      let url = '/problems/';
+      if (activeDateFilter) url += `?solved_date=${activeDateFilter}`;
+      const allRes = await fetch(url);
+      cachedProblems = await allRes.json();
+      document.getElementById('allCountBadge').innerText = `${cachedProblems.length} records`;
+
+      renderChart(cachedProblems);
+
+      const dueContainer = document.getElementById('dueList');
+      if (dueProblems.length === 0) {
+        dueContainer.innerHTML = `<div class="bg-slate-900/40 border border-dashed border-slate-800 rounded-xl p-3.5 text-center text-slate-400 text-xs">Zero retention revisions pending. Schedule optimal. 🔥</div>`;
+      } else {
+        dueContainer.innerHTML = dueProblems.map(p => `
+          <div class="bg-slate-900 border border-amber-900/50 rounded-xl p-3.5 flex items-center justify-between gap-3 cursor-pointer hover:border-amber-600 transition" onclick="openProblemModal(${p.id})">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white text-sm">${p.title}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
+                <span class="text-xs text-indigo-300 font-mono">${p.platform}</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1 line-clamp-1">${p.notes || "No algorithmic intuition recorded"}</p>
+            </div>
+            <button onclick="event.stopPropagation(); markRevised(${p.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition whitespace-nowrap">
+              ✓ Revised
+            </button>
+          </div>
+        `).join('');
+      }
+
+      const allContainer = document.getElementById('allList');
+      if (cachedProblems.length === 0) {
+        allContainer.innerHTML = `<div class="text-xs text-slate-500">No problems currently registered in datastore.</div>`;
+      } else {
+        allContainer.innerHTML = cachedProblems.map(p => `
+          <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-3.5 flex items-center justify-between gap-3 cursor-pointer transition" onclick="openProblemModal(${p.id})">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-semibold text-indigo-200 text-sm hover:underline">${p.title}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
+                <span class="text-xs text-slate-400 font-mono">${p.platform}</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5 line-clamp-1">${p.notes || "No notes available"}</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700 font-mono">Stage #${p.revision_count}</span>
+              <button onclick="event.stopPropagation(); deleteProblem(${p.id})" class="text-slate-500 hover:text-rose-400 p-1.5 transition">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+      lucide.createIcons();
+    }
+
+    async function generateReportCard() {
+      const profRes = await fetch('/profile/');
+      const prof = await profRes.json();
+      
+      const allRes = await fetch('/problems/');
+      const problems = await allRes.json();
+
+      const todayStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      const certId = `CERT-AF-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+      document.getElementById('reportDate').innerText = `Issued: ${todayStr}`;
+      document.getElementById('repName').innerText = prof.name;
+      document.getElementById('repRole').innerText = prof.target_role;
+      document.getElementById('repLanguage').innerText = prof.primary_language;
+      document.getElementById('repCertId').innerText = certId;
+      document.getElementById('repTotalSolved').innerText = prof.solved_count + problems.length;
+
+      document.getElementById('repEasy').innerText = problems.filter(p => p.difficulty === "Easy").length;
+      document.getElementById('repMed').innerText = problems.filter(p => p.difficulty === "Medium").length;
+      document.getElementById('repHard').innerText = problems.filter(p => p.difficulty === "Hard").length;
+
+      const qrBox = document.getElementById('qrcodeBox');
+      qrBox.innerHTML = "";
+      const verificationUrl = `https://algoforge.enterprise/verify/${certId}?candidate=${encodeURIComponent(prof.name)}&lang=${encodeURIComponent(prof.primary_language)}&count=${prof.solved_count + problems.length}`;
+      
+      new QRCode(qrBox, {
+        text: verificationUrl,
+        width: 68,
+        height: 68,
+        colorDark : "#0f172a",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.M
+      });
+
+      document.getElementById('reportCardModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    async function purgeAllRecords() {
+      const confirmFirst = confirm("CRITICAL WARNING: Are you sure you want to delete ALL solved problems from the database?");
+      if (!confirmFirst) return;
+      const confirmSecond = confirm("Confirm once more: This action is irreversible. Proceed with complete database purge?");
+      if (confirmSecond) {
+        await fetch('/problems/all/purge', { method: 'DELETE' });
+        loadData();
+        renderCalendar();
+      }
+    }
+
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+      document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
+      document.getElementById('prefForm').classList.toggle('hidden', tab !== 'pref');
+
+      document.getElementById('tabLoginBtn').className = tab === 'login' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
+      document.getElementById('tabRegisterBtn').className = tab === 'register' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1 ml-4' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
+      document.getElementById('tabPrefBtn').className = tab === 'pref' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1 ml-4' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const payload = {
+        username: document.getElementById('loginUsername').value,
+        password: document.getElementById('loginPassword').value
+      };
+      const res = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        alert("Authentication verified successfully.");
+        closeModal('authModal');
+        loadProfileAndRecs();
+      } else {
+        alert("Authentication rejected: Invalid credentials.");
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('regName').value,
+        username: document.getElementById('regUsername').value,
+        password: document.getElementById('regPassword').value,
+        primary_language: document.getElementById('regLanguage').value,
+        solved_count: parseInt(document.getElementById('regSolved').value) || 0,
+        target_role: document.getElementById('regRole').value
+      };
+      const res = await fetch('/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        alert("Account registered securely into datastore.");
+        closeModal('authModal');
+        loadProfileAndRecs();
+      } else {
+        const err = await res.json();
+        alert(`Registration failed: ${err.detail}`);
+      }
+    }
+
+    async function saveProfile() {
+      const payload = {
+        name: document.getElementById('editName').value || "Candidate",
+        solved_count: parseInt(document.getElementById('editSolved').value) || 0,
+        target_role: document.getElementById('editRole').value || "Software Engineer",
+        primary_language: document.getElementById('editLanguage').value || "C++"
+      };
+
+      await fetch('/profile/', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      closeModal('authModal');
+      await loadProfileAndRecs();
+      await renderCalendar();
+    }
+
+    function openProblemModal(id) {
+      const p = cachedProblems.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('modalTitle').innerText = p.title;
+      document.getElementById('modalTopic').innerText = p.topic;
+      document.getElementById('modalNotes').innerText = p.notes || "No algorithmic intuition recorded for this entry.";
+      document.getElementById('modalPlatform').innerText = p.platform;
+
+      const diffBadge = document.getElementById('modalDiff');
+      diffBadge.innerText = p.difficulty;
+      diffBadge.className = `text-xs px-2 py-0.5 rounded border ${difficultyColors[p.difficulty]}`;
+
+      const linkBtn = document.getElementById('modalProblemLink');
+      if (p.problem_url) {
+        linkBtn.href = p.problem_url;
+        linkBtn.classList.remove('hidden');
+      } else {
+        linkBtn.classList.add('hidden');
+      }
+
+      const lang = currentUserProfile ? currentUserProfile.primary_language : 'C++';
+      
+      // Google Search Button
+      const googleBtn = document.getElementById('modalGoogleBtn');
+      googleBtn.onclick = () => {
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(p.title + ' ' + p.topic + ' in ' + lang + ' solution optimal')}`, '_blank');
+      };
+
+      // Direct Gemini AI Assistant Integration Button
+      const geminiBtn = document.getElementById('modalGeminiBtn');
+      geminiBtn.onclick = () => {
+        const promptText = `Explain optimal algorithm for "${p.title}" (${p.topic}) in ${lang} with time and space complexity analysis.`;
+        window.open(`https://gemini.google.com/app?prompt=${encodeURIComponent(promptText)}`, '_blank');
+      };
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    document.getElementById('problemForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById('title').value,
+        topic: document.getElementById('topic').value,
+        difficulty: document.getElementById('difficulty').value,
+        platform: document.getElementById('platform').value,
+        problem_url: document.getElementById('problem_url').value || null,
+        notes: document.getElementById('notes').value || null
+      };
+
+      await fetch('/problems/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('problemForm').reset();
+      loadData();
+      renderCalendar();
+    });
+
+    async function markRevised(id) {
+      await fetch(`/problems/${id}/revise`, { method: 'PUT' });
+      loadData();
+    }
+
+    async function deleteProblem(id) {
+      if (confirm("Delete this problem record permanently?")) {
+        await fetch(`/problems/${id}`, { method: 'DELETE' });
+        loadData();
+        renderCalendar();
+      }
+    }
+
+    // Startup Initializer
+    checkNotificationStatus();
+    loadProfileAndRecs();
+    renderCalendar();
+    loadData();
+  </script>
+</body>
+</html>
