@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+dsa_tracker.db
+venv/
+.env
