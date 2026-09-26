@@ -1,8 +1,7 @@
 <!--
 ================================================================================
 Project: AlgoForge Pro Enterprise
-Author: Keshav Gupta (c) 2026. All Rights Reserved.
-Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
+Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 ================================================================================
 -->
 <!DOCTYPE html>
@@ -10,33 +9,68 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ALGOFORGE ENTERPRISE - Autonomous DSA Intelligence Suite</title>
+  <title>ALGOFORGE ENTERPRISE // AUTONOMOUS CYBER-CORE</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;800&family=Alex+Brush&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"Fira Code"', '"JetBrains Mono"', 'monospace'],
+            signature: ['"Alex Brush"', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   
   <style>
-    /* 3D Embossed Luxury Gold Seal */
+    * { font-family: 'Fira Code', 'JetBrains Mono', monospace; }
+    
     .gold-wax-seal {
       background: radial-gradient(circle at 35% 35%, #fde047 0%, #eab308 30%, #ca8a04 70%, #854d0e 100%);
       box-shadow: 0 4px 14px rgba(202, 138, 4, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
       border: 3px dashed #fef08a;
     }
+
+    .cursor-blink::after {
+      content: '▋';
+      animation: blink 0.8s infinite steps(1);
+      color: #10b981;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
     
+    /* Glowing Pulse effect for Floating AI Button */
+    .ai-floating-glow {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 40px rgba(99, 102, 241, 0.3);
+      animation: floatGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-4px) scale(1.02); }
+    }
+
     @media print {
       body * { visibility: hidden; }
       #certificatePrintArea, #certificatePrintArea * { visibility: visible; }
       #certificatePrintArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border: 4px double #4338ca !important;
-        box-shadow: none !important;
-        padding: 24px !important;
+        position: absolute; left: 0; top: 0; width: 100%;
+        background: #ffffff !important; color: #0f172a !important;
+        border: 4px double #4338ca !important; box-shadow: none !important; padding: 24px !important;
       }
       .no-print { display: none !important; }
       .print-text-dark { color: #0f172a !important; }
@@ -44,14 +78,13 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-200 relative">
 
-  <!-- Main App Wrapper -->
   <div class="flex-grow">
-    <!-- Navigation Header -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <!-- Brand trigger: Click to view complete project blueprint -->
+        
         <div onclick="openAboutModal()" class="flex items-center space-x-3 cursor-pointer group select-none">
           <div class="p-2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 rounded-xl shadow-lg shadow-indigo-500/25 border border-indigo-400/20 group-hover:scale-105 transition">
             <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -62,43 +95,45 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-indigo-300 via-purple-200 to-pink-300 bg-clip-text text-transparent uppercase group-hover:text-indigo-300 transition">
-                AlgoForge Pro
+              <h1 class="text-base md:text-lg font-black tracking-wider bg-gradient-to-r from-cyan-400 via-indigo-300 to-fuchsia-400 bg-clip-text text-transparent uppercase">
+                ALGOFORGE_PRO
               </h1>
-              <span class="text-[10px] bg-indigo-950 border border-indigo-800 text-indigo-400 font-mono px-1.5 py-0.5 rounded flex items-center gap-1">
-                <i data-lucide="info" class="w-3 h-3"></i> System Docs
+              <span class="text-[10px] bg-indigo-950 border border-indigo-800 text-indigo-400 px-1.5 py-0.5 rounded font-mono">
+                v4.0_GEMINI_AI
               </span>
             </div>
-            <p class="text-xs text-slate-400">Autonomous DSA Optimization Suite • <span class="text-indigo-400 underline">Click to inspect</span></p>
+            <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
+              <span class="text-indigo-400 font-bold">&gt;</span>
+              <span id="roboticConsoleOutput" class="text-emerald-400 font-semibold cursor-blink">INITIALIZING...</span>
+            </p>
           </div>
         </div>
 
-        <!-- Header Actions -->
-        <div class="flex items-center gap-2.5">
-          <!-- Direct Google Gemini AI Link -->
-          <a href="https://gemini.google.com" target="_blank" class="hidden lg:flex items-center gap-1.5 bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-purple-900/40 border border-blue-500/40 hover:border-blue-400 text-blue-300 text-xs px-3 py-1.5 rounded-xl transition shadow-sm hover:scale-[1.02]">
-            <i data-lucide="sparkles" class="w-4 h-4 text-blue-400"></i>
-            <span>Ask Gemini AI</span>
-          </a>
+        <div class="flex items-center gap-2">
+          <!-- Daily Streak Badge -->
+          <div class="flex items-center gap-1.5 bg-amber-950/40 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
+            <span class="text-base animate-pulse">🔥</span>
+            <span>STREAK: <b id="streakBadgeCount" class="text-white font-mono">0</b>d</span>
+          </div>
+
+          <!-- Light/Dark Toggle -->
+          <button onclick="toggleTheme()" id="themeBtn" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-2.5 py-1.5 rounded-xl transition flex items-center gap-1">
+            <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
+          </button>
 
           <button onclick="fetchRandomChallenge()" class="hidden md:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-xl transition">
             <i data-lucide="shuffle" class="w-4 h-4 text-indigo-400"></i>
-            <span>Random Challenge</span>
-          </button>
-
-          <button id="notifyBtn" onclick="requestNotificationAccess()" class="hidden sm:flex items-center gap-1.5 bg-amber-950/40 border border-amber-800/60 hover:border-amber-600 text-amber-300 text-xs px-3 py-1.5 rounded-xl transition">
-            <i data-lucide="bell-ring" class="w-4 h-4"></i>
-            <span id="notifyBtnText">Reminders</span>
+            <span>Shuffle</span>
           </button>
 
           <button onclick="generateReportCard()" class="flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 border border-amber-500/50 hover:border-amber-400 text-amber-300 text-xs px-3.5 py-1.5 rounded-xl transition font-semibold shadow-lg shadow-amber-500/10">
             <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
-            <span>Verified Certificate</span>
+            <span class="hidden sm:inline">Dossier</span>
           </button>
 
           <button onclick="openAuthModal()" class="flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
             <i data-lucide="shield-check" class="w-4 h-4"></i>
-            <span id="navUserName">Account</span>
+            <span id="navUserName">Sign In</span>
           </button>
         </div>
       </div>
@@ -107,33 +142,42 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
     <!-- Main Workspace Dashboard -->
     <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Left Column: User Intelligence & Actions -->
+      <!-- Left Column -->
       <div class="lg:col-span-1 space-y-6">
 
         <!-- Candidate Credentials Card -->
-        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <div onclick="openUserHistoryDrawer()" class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-2xl p-5 shadow-xl cursor-pointer group transition">
           <div class="flex items-start justify-between">
             <div>
-              <h2 id="profName" class="text-lg font-bold text-white tracking-wide">Candidate</h2>
-              <p id="profRole" class="text-xs text-slate-400">Role: Software Engineer</p>
+              <div class="flex items-center gap-1.5">
+                <h2 id="profName" class="text-base font-bold text-white group-hover:text-indigo-300 transition">Candidate</h2>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:translate-x-1 transition"></i>
+              </div>
+              <p id="profRole" class="text-xs text-slate-400 mt-0.5">Role: Software Engineer</p>
             </div>
-            <span id="profLevelBadge" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-indigo-950 border border-indigo-800 text-indigo-400">
-              Beginner
+            <span id="profLevelBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-950 border border-indigo-800 text-indigo-400">
+              Verified Candidate
             </span>
           </div>
-          <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-300">
-            <span>Primary Language: <b id="profLanguage" class="text-indigo-400 font-mono">C++</b></span>
-            <span>Target Today: <b id="targetCount" class="text-indigo-400 font-mono">3</b></span>
+
+          <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-300">
+            <span>Primary Language: <b id="profLanguage" class="text-indigo-400">C++</b></span>
+            <span>Target Today: <b id="targetCount" class="text-indigo-400">3</b></span>
+          </div>
+
+          <div class="mt-3 text-[11px] text-indigo-400/80 group-hover:text-indigo-300 flex items-center justify-between border-t border-slate-800/80 pt-2 font-mono">
+            <span>⚡ Inspect Candidate Ledger</span>
+            <span id="authStatusBadge" class="text-[10px] text-amber-400">Guest Access</span>
           </div>
         </div>
 
-        <!-- Real-Time Activity Calendar -->
+        <!-- Execution Calendar -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <h3 class="text-xs font-bold text-white flex items-center gap-2 uppercase tracking-wider">
               <i data-lucide="calendar" class="w-4 h-4 text-indigo-400"></i> Execution Calendar
             </h3>
-            <span id="calendarMonthYear" class="text-xs font-mono text-slate-400"></span>
+            <span id="calendarMonthYear" class="text-xs text-slate-400"></span>
           </div>
 
           <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-500 font-semibold mb-1">
@@ -142,87 +186,82 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
           <div id="calendarGrid" class="grid grid-cols-7 gap-1.5"></div>
         </div>
 
-        <!-- Problem Entry Form -->
+        <!-- QUICK 1-CLICK LEETCODE COMMIT FORM -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-          <h3 class="text-base font-semibold mb-3 flex items-center gap-2 text-indigo-300">
-            <i data-lucide="plus-circle" class="w-5 h-5"></i> Record Problem Solution
-          </h3>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold flex items-center gap-2 text-indigo-300 uppercase tracking-wider">
+              <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Quick LeetCode Commit
+            </h3>
+            <span class="text-[9px] bg-amber-950 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">AUTOPILOT</span>
+          </div>
 
           <form id="problemForm" class="space-y-3">
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Problem Statement / Title</label>
-              <input type="text" id="title" required placeholder="e.g. Subarray Sum Equals K"
-                     class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Topic / Category</label>
-                <input type="text" id="topic" required placeholder="e.g. Sliding Window"
-                       class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+              <label class="block text-[11px] text-slate-300 font-semibold mb-1">
+                LeetCode Number or Problem Slug
+              </label>
+              <div class="relative">
+                <input type="text" id="leetcodeQuery" required placeholder="e.g. 1 OR 15 OR 206 OR 2042"
+                       class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-3 pr-20 py-2.5 text-xs focus:outline-none focus:border-indigo-500 text-slate-100 font-mono"/>
+                <span class="absolute right-2.5 top-2.5 text-[10px] text-indigo-400 font-mono">LeetCode</span>
               </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Difficulty</label>
-                <select id="difficulty" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                  <option value="Easy">Easy</option>
-                  <option value="Medium" selected>Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
-              </div>
+              <p class="text-[9px] text-slate-500 mt-1">Automatic sync across 3000+ LeetCode problems.</p>
             </div>
 
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Evaluation Platform</label>
-              <select id="platform" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                <option value="LeetCode" selected>LeetCode</option>
-                <option value="Codeforces">Codeforces</option>
-                <option value="GeeksforGeeks">GeeksforGeeks</option>
-                <option value="CodeChef">CodeChef</option>
-              </select>
+              <label class="block text-[11px] text-slate-300 font-semibold mb-1">Complexity &amp; Intuition Notes</label>
+              <textarea id="notes" rows="2" placeholder="O(N) Time and O(1) Space using two pointers..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-200"></textarea>
             </div>
 
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Source URL (Optional)</label>
-              <input type="url" id="problem_url" placeholder="https://..."
-                     class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
-            </div>
-
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Algorithmic Intuition & Complexity</label>
-              <textarea id="notes" rows="2" placeholder="Hashmap frequency counting with O(N) time and O(N) space..."
-                        class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></textarea>
-            </div>
-
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
-              <i data-lucide="check" class="w-4 h-4"></i> Commit Record
+            <button type="submit" id="commitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium py-2.5 rounded-lg text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span id="commitBtnText">Auto-Fetch &amp; Commit to Bank</span>
             </button>
           </form>
         </div>
 
         <!-- Danger Zone -->
         <div class="bg-rose-950/20 border border-rose-900/40 rounded-2xl p-4">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1 flex items-center gap-1.5">
-            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Data Management Controls
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-rose-400 mb-1 flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Datastore Controls
           </h4>
-          <p class="text-[11px] text-slate-400 mb-3">Permanently purge all solved problems and reset tracking records.</p>
+          <p class="text-[10px] text-slate-400 mb-3">Irreversibly wipes all tracked problems.</p>
           <button onclick="purgeAllRecords()" class="w-full bg-rose-900/30 hover:bg-rose-600 border border-rose-700/50 hover:border-rose-500 text-rose-300 hover:text-white text-xs font-semibold py-2 rounded-lg transition flex items-center justify-center gap-2">
-            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Purge All Tracked Problems
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Purge Datastore
           </button>
         </div>
       </div>
 
-      <!-- Right 2 Columns: Intelligence Dashboard -->
+      <!-- Right 2 Columns -->
       <div class="lg:col-span-2 space-y-6">
 
-        <!-- Curated Reservoir Recommendations -->
+        <!-- Pattern Filter Bar -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="text-xs font-bold uppercase text-slate-300 flex items-center gap-2">
+              <i data-lucide="filter" class="w-4 h-4 text-indigo-400"></i> Algorithmic Pattern Filters
+            </h4>
+            <span id="activePatternFilterLabel" class="text-[10px] text-indigo-400 font-mono">Viewing: ALL</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="filterByPattern('ALL')" class="pattern-pill active px-2.5 py-1 text-[11px] rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium transition">All</button>
+            <button onclick="filterByPattern('Two Pointers')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Two Pointers</button>
+            <button onclick="filterByPattern('Sliding Window')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Sliding Window</button>
+            <button onclick="filterByPattern('Binary Search')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Binary Search</button>
+            <button onclick="filterByPattern('Monotonic Stack')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Monotonic Stack</button>
+          </div>
+        </div>
+
+        <!-- Curated Reservoir -->
         <div class="bg-gradient-to-r from-indigo-950/50 via-purple-950/30 to-slate-900 border border-indigo-900/40 rounded-2xl p-5 shadow-lg">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
-              <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
-              <h3 class="text-sm font-bold text-white uppercase tracking-wider">Algorithmic Problem Reservoir</h3>
+              <i data-lucide="terminal" class="w-4 h-4 text-indigo-400"></i>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Curated Problem Reservoir</h3>
             </div>
             <button onclick="fetchRandomChallenge()" class="text-xs text-indigo-300 hover:underline flex items-center gap-1">
-              <i data-lucide="refresh-cw" class="w-3 h-3"></i> Shuffle Discovery
+              <i data-lucide="refresh-cw" class="w-3 h-3"></i> Reshuffle
             </button>
           </div>
           <div id="recContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
@@ -230,7 +269,7 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
 
         <!-- Chart Matrix -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-          <h3 class="text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+          <h3 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-2 uppercase tracking-wider">
             <i data-lucide="pie-chart" class="w-4 h-4 text-purple-400"></i> Cognitive Mastery Matrix
           </h3>
           <div class="h-44 flex items-center justify-center">
@@ -240,18 +279,18 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
 
         <!-- Spaced Repetition Due Queue -->
         <section>
-          <h3 class="text-base font-semibold text-amber-300 mb-3 flex items-center gap-2">
-            <i data-lucide="alarm-clock" class="w-5 h-5"></i> Scheduled Retention Due
+          <h3 class="text-xs font-bold text-amber-300 mb-3 flex items-center gap-2 uppercase tracking-wider">
+            <i data-lucide="alarm-clock" class="w-4 h-4"></i> Spaced Repetition Due Queue
           </h3>
           <div id="dueList" class="space-y-2.5"></div>
         </section>
 
-        <!-- Tracked Records Explorer -->
+        <!-- Solved Question Bank -->
         <section class="pt-4 border-t border-slate-800">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
-                <i data-lucide="database" class="w-5 h-5"></i> Solved Question Bank
+              <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
+                <i data-lucide="database" class="w-4 h-4"></i> Solved Question Bank
               </h3>
               <button id="clearDateFilterBtn" onclick="clearDateFilter()" class="hidden text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-full flex items-center gap-1">
                 <span id="filteredDateLabel"></span> <i data-lucide="x" class="w-3 h-3"></i>
@@ -265,328 +304,270 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
     </main>
   </div>
 
-  <!-- EXECUTIVE CORPORATE FOOTER WITH GITHUB & LINKEDIN PROFILES -->
+  <!-- ======================================================== -->
+  <!-- FLOATING PERSISTENT CIRCULAR "AI ALGOFORGE" WIDGET (RIGHT BOTTOM) -->
+  <!-- ======================================================== -->
+  <div class="fixed bottom-6 right-6 z-50 flex items-center group select-none">
+    <!-- Hover Text Tooltip -->
+    <span class="mr-3 px-3 py-1.5 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 text-[11px] font-mono rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none hidden sm:block whitespace-nowrap">
+      ⚡ Launch AI ALGOFORGE (Gemini)
+    </span>
+
+    <!-- Circular Floating Button -->
+    <button onclick="launchGeminiAIMentor()" class="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-600 via-indigo-600 to-purple-600 p-[2px] ai-floating-glow transition-all duration-300 group-hover:scale-110 active:scale-95 focus:outline-none">
+      <div class="w-full h-full bg-slate-950 rounded-full flex flex-col items-center justify-center p-1 border border-cyan-400/40 hover:bg-slate-900 transition">
+        <i data-lucide="bot" class="w-6 h-6 text-cyan-300"></i>
+        <span class="text-[8px] font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-300 mt-0.5">
+          AI ALGOFORGE
+        </span>
+      </div>
+    </button>
+  </div>
+
+  <!-- Corporate Footer -->
   <footer class="border-t border-slate-800/80 bg-slate-950/90 py-8 px-4 mt-12 text-slate-400 text-xs">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5">
-      
-      <!-- Brand & Ownership Statement -->
       <div class="flex items-center gap-3">
         <div class="p-2 bg-indigo-600/20 border border-indigo-500/30 rounded-xl text-indigo-400">
           <i data-lucide="terminal" class="w-5 h-5"></i>
         </div>
         <div>
-          <p class="font-bold text-slate-200">
-            AlgoForge Enterprise Platform &copy; 2026
-          </p>
-          <p class="text-[11px] text-slate-400 mt-0.5">
-            Architected, Developed & Maintained by <span class="text-indigo-300 font-semibold">Keshav Gupta</span>
-          </p>
+          <p class="font-bold text-slate-200">AlgoForge Enterprise Suite &copy; 2026</p>
+          <p class="text-[11px] text-slate-400 mt-0.5">Architected by <span class="text-indigo-300 font-semibold">Keshav Gupta</span></p>
         </div>
       </div>
-
-      <!-- Interactive Developer Profiles (LinkedIn & GitHub) -->
       <div class="flex items-center gap-3">
-        <!-- GitHub Profile Link -->
-        <a href="https://github.com/KESHAVGUPTA-00" target="_blank" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-500 px-3 py-1.5 rounded-xl transition">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span class="font-medium">GitHub Profile</span>
+        <a href="https://github.com/KESHAVGUPTA-00" target="_blank" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-xl transition">
+          <i data-lucide="github" class="w-4 h-4"></i> GitHub
         </a>
-
-        <!-- LinkedIn Profile Link -->
-        <a href="https://www.linkedin.com/in/keshavgupta333" target="_blank" class="flex items-center gap-1.5 bg-indigo-950/60 hover:bg-indigo-900 text-indigo-200 border border-indigo-700/60 hover:border-indigo-500 px-3 py-1.5 rounded-xl transition">
-          <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i>
-          <span class="font-medium">LinkedIn Profile</span>
+        <a href="https://www.linkedin.com/in/keshavgupta333" target="_blank" class="flex items-center gap-1.5 bg-indigo-950/60 hover:bg-indigo-900 text-indigo-200 border border-indigo-700/60 px-3 py-1.5 rounded-xl transition">
+          <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i> LinkedIn
         </a>
       </div>
-
     </div>
   </footer>
 
-  <!-- ABOUT ALGOFORGE PRO MODAL -->
-  <div id="aboutModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative text-slate-100">
-      <button onclick="closeModal('aboutModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-6 h-6"></i>
-      </button>
-
-      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
-        <div class="p-3 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-lg text-white">
-          <i data-lucide="cpu" class="w-7 h-7"></i>
-        </div>
+  <!-- MULTI-LANGUAGE IN-BROWSER CODE EDITOR MODAL -->
+  <div id="detailModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('detailModal'); stopTimer();" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
         <div>
-          <h2 class="text-xl md:text-2xl font-black text-white uppercase tracking-wide">About AlgoForge Pro</h2>
-          <p class="text-xs text-indigo-300 font-mono">System Architecture & Engineering Specification</p>
-        </div>
-      </div>
-
-      <div class="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-          <h4 class="font-bold text-white mb-1 flex items-center gap-2">
-            <i data-lucide="target" class="w-4 h-4 text-indigo-400"></i> Core Purpose & Problem Statement
-          </h4>
-          <p class="text-slate-400 text-xs leading-normal">
-            Most students solve hundreds of LeetCode problems but forget core intuitions during technical interviews. <b>AlgoForge Pro</b> is an algorithmic intelligence platform built to eliminate memory decay through automated <b>Spaced Repetition Scheduling</b> and real-time candidate verification.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <h4 class="font-bold text-indigo-300 mb-1 flex items-center gap-1.5 text-xs uppercase">
-              <i data-lucide="repeat" class="w-4 h-4"></i> Spaced Repetition Engine
-            </h4>
-            <p class="text-[11px] text-slate-400">
-              Problems automatically queue up for revision at increasing mathematical intervals: <b>Day 1 &rarr; Day 3 &rarr; Day 7 &rarr; Day 14 &rarr; Day 30</b>.
-            </p>
+          <div class="flex items-center gap-2">
+            <span id="modalDiff" class="text-xs px-2 py-0.5 rounded border">Easy</span>
+            <span id="modalPattern" class="text-xs bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800">Two Pointers</span>
           </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <h4 class="font-bold text-purple-300 mb-1 flex items-center gap-1.5 text-xs uppercase">
-              <i data-lucide="shield" class="w-4 h-4"></i> Cryptographic Auth & DB
-            </h4>
-            <p class="text-[11px] text-slate-400">
-              Built with Python FastAPI, SQLAlchemy ORM, SQLite datastore, and PBKDF2-HMAC-SHA256 salted password hashing for zero-dependency security.
-            </p>
+          <h3 id="modalTitle" class="text-lg font-bold text-white mt-1">Problem Statement</h3>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Problem Modal specific Gemini Mentor trigger -->
+          <button onclick="launchGeminiAIMentorForProblem()" class="flex items-center gap-1.5 bg-gradient-to-r from-cyan-600/40 to-blue-600/40 border border-cyan-500/60 hover:border-cyan-400 text-cyan-200 text-xs px-3 py-1.5 rounded-xl transition font-bold shadow-sm">
+            <i data-lucide="sparkles" class="w-4 h-4 text-cyan-300"></i>
+            <span>Ask AI ALGOFORGE</span>
+          </button>
+
+          <div class="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+            <i data-lucide="clock" class="w-4 h-4 text-amber-400 animate-spin"></i>
+            <span id="timerCountdown" class="text-sm font-mono font-bold text-amber-400">25:00</span>
+            <button onclick="toggleTimer()" id="timerControlBtn" class="bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-200 px-2 py-1 rounded font-bold">PAUSE</button>
           </div>
         </div>
+      </div>
 
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-          <h4 class="font-bold text-amber-400 mb-1 flex items-center gap-2 text-xs uppercase">
-            <i data-lucide="award" class="w-4 h-4"></i> Verified Dossier & QR Validation
-          </h4>
-          <p class="text-[11px] text-slate-400 leading-normal">
-            Generates a printable, verifiable candidate certificate featuring a real dynamic QR Code and credential seal issued under <b>Keshav Gupta (Founder & CEO)</b>, optimized for LinkedIn portfolios and recruiter review.
-          </p>
+      <!-- Algorithmic Intuition -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
+        <p class="text-[10px] font-semibold text-slate-400 uppercase mb-1">Intuition &amp; Complexity Analysis</p>
+        <p id="modalNotes" class="text-xs text-slate-300 whitespace-pre-line"></p>
+      </div>
+
+      <!-- MULTI-LANGUAGE COMPILER INTERFACE -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+            <button id="tabCpp" onclick="switchLanguageTab('cpp')" class="px-3 py-1 rounded-lg font-bold bg-indigo-600 text-white transition">C++</button>
+            <button id="tabPython" onclick="switchLanguageTab('python')" class="px-3 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">Python</button>
+            <button id="tabJava" onclick="switchLanguageTab('java')" class="px-3 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">Java</button>
+          </div>
+
+          <span id="saveCodeStatus" class="text-[11px] text-emerald-400 font-mono font-bold"></span>
+        </div>
+
+        <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-inner">
+          <div class="bg-slate-900/80 px-4 py-1.5 border-b border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+            <span id="editorLanguageLabel" class="text-indigo-400 font-bold">solution.cpp</span>
+            <span>UTF-8 // Autocomplete Ready</span>
+          </div>
+          <textarea id="modalCodeEditor" rows="9" spellcheck="false" 
+                    class="w-full bg-transparent text-emerald-300 font-mono text-xs p-4 focus:outline-none leading-relaxed resize-none"></textarea>
         </div>
       </div>
 
-      <div class="border-t border-slate-800 pt-4 flex items-center justify-between">
-        <span class="text-[11px] text-slate-500">Author: Keshav Gupta • B.Tech Computer Science</span>
-        <button onclick="closeModal('aboutModal')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
-          Close Blueprint
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Problem Inspection Modal (With Gemini Assistant Trigger) -->
-  <div id="detailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-      <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-      <div class="flex items-center gap-2">
-        <span id="modalDiff" class="text-xs px-2 py-0.5 rounded border">Easy</span>
-        <span id="modalPlatform" class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">LeetCode</span>
-      </div>
-      <h3 id="modalTitle" class="text-xl font-bold text-white">Problem Statement</h3>
-      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
-        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Topic Classification</p>
-        <p id="modalTopic" class="text-sm text-indigo-300 font-medium"></p>
-      </div>
-      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
-        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Recorded Algorithmic Logic</p>
-        <p id="modalNotes" class="text-sm text-slate-300 whitespace-pre-line"></p>
-      </div>
-
-      <!-- Action Buttons with Gemini Assistance -->
       <div class="pt-2 flex flex-col sm:flex-row gap-2">
-        <a id="modalProblemLink" href="#" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-1.5">
-          <i data-lucide="external-link" class="w-4 h-4"></i> Open Platform
+        <button onclick="saveCurrentCodeSnippet()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="save" class="w-4 h-4"></i> Save Active Solution to Datastore
+        </button>
+        <a id="modalProblemLink" href="#" target="_blank" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-1.5">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Open Official LeetCode Link
         </a>
-        <button id="modalGeminiBtn" class="flex-1 bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition shadow">
-          <i data-lucide="sparkles" class="w-4 h-4"></i> Solve with Gemini
-        </button>
-        <button id="modalGoogleBtn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
-          <i data-lucide="search" class="w-4 h-4"></i> Search Optimal
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- Authentication Gateway -->
-  <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
-      <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+  <!-- AUTHENTICATION GATEWAY -->
+  <div id="authModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+      <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
 
       <div class="flex items-center gap-2 border-b border-slate-800 pb-3">
-        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1">Sign In</button>
-        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4">Create Account</button>
-        <button id="tabPrefBtn" onclick="switchAuthTab('pref')" class="text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4">Profile Config</button>
+        <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="text-xs font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1">Sign Up</button>
+        <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="text-xs font-medium text-slate-400 hover:text-white pb-1 ml-4">Sign In</button>
       </div>
 
-      <!-- Sign In Form -->
-      <form id="loginForm" class="space-y-3" onsubmit="handleLogin(event)">
+      <form id="registerForm" class="space-y-3" onsubmit="handleRegister(event)">
         <div>
-          <label class="block text-xs text-slate-400 mb-1">Username</label>
-          <input type="text" id="loginUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
-        </div>
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Password</label>
-          <input type="password" id="loginPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
-        </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Sign In</button>
-      </form>
-
-      <!-- Register Form -->
-      <form id="registerForm" class="space-y-3 hidden" onsubmit="handleRegister(event)">
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Full Legal Name</label>
-          <input type="text" id="regName" required placeholder="e.g. Keshav Gupta" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Full Legal Name</label>
+          <input type="text" id="regName" required placeholder="e.g. Keshav Gupta" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs text-slate-400 mb-1">Username</label>
-            <input type="text" id="regUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Username</label>
+            <input type="text" id="regUsername" required placeholder="keshav01" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
           </div>
           <div>
-            <label class="block text-xs text-slate-400 mb-1">Password</label>
-            <input type="password" id="regPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Mobile</label>
+            <input type="tel" id="regPhone" required placeholder="+91 9876543210" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
           </div>
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Password</label>
+          <input type="password" id="regPassword" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs text-slate-400 mb-1">Primary Language</label>
-            <select id="regLanguage" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Language</label>
+            <select id="regLanguage" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100">
               <option value="C++" selected>C++</option>
               <option value="Java">Java</option>
               <option value="Python">Python</option>
-              <option value="JavaScript">JavaScript</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs text-slate-400 mb-1">Prior Solved Base</label>
-            <input type="number" id="regSolved" value="20" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Role</label>
+            <input type="text" id="regRole" value="Software Development Engineer" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
           </div>
         </div>
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Target Engineering Role</label>
-          <input type="text" id="regRole" value="Software Development Engineer" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
-        </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Register Account</button>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-lg text-xs transition shadow-lg shadow-indigo-600/30">Save in Datastore &amp; Login</button>
       </form>
 
-      <!-- Profile Config Form -->
-      <div id="prefForm" class="space-y-3 hidden">
+      <form id="loginForm" class="space-y-3 hidden" onsubmit="handleLogin(event)">
         <div>
-          <label class="block text-xs text-slate-400 mb-1">Display Name</label>
-          <input type="text" id="editName" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Username</label>
+          <input type="text" id="loginUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
         </div>
         <div>
-          <label class="block text-xs text-slate-400 mb-1">Primary Implementation Language</label>
-          <select id="editLanguage" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-            <option value="C++">C++</option>
-            <option value="Java">Java</option>
-            <option value="Python">Python</option>
-            <option value="JavaScript">JavaScript</option>
-          </select>
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none text-slate-100"/>
         </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-xs transition">Authenticate Session</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CANDIDATE PROFILE DRAWER -->
+  <div id="userHistoryModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full p-6 space-y-5 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('userHistoryModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="p-2.5 bg-indigo-600/30 border border-indigo-500/40 rounded-2xl text-indigo-400"><i data-lucide="user-check" class="w-6 h-6"></i></div>
         <div>
-          <label class="block text-xs text-slate-400 mb-1">Historical Solved Benchmark</label>
-          <input type="number" id="editSolved" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+          <h3 id="drawerName" class="text-lg font-bold text-white">Candidate</h3>
+          <p class="text-xs text-indigo-400 font-mono">Candidate History &amp; Cryptographic Profile</p>
         </div>
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Target Professional Role</label>
-          <input type="text" id="editRole" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"/>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span class="text-[10px] text-slate-400 block uppercase">Username</span>
+          <span id="drawerUsername" class="font-mono text-indigo-300 font-bold">-</span>
         </div>
-        <button onclick="saveProfile()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-sm transition">Update Profile</button>
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span class="text-[10px] text-slate-400 block uppercase">Mobile</span>
+          <span id="drawerPhone" class="font-mono text-emerald-400 font-bold">-</span>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs font-bold uppercase text-slate-400 mb-2">Execution Log</h4>
+        <div id="drawerProblemHistory" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
+      </div>
+      <div class="border-t border-slate-800 pt-3 flex justify-end">
+        <button onclick="closeModal('userHistoryModal')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2 rounded-xl text-slate-200">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- LUXURY VERIFIED CERTIFICATE DOSSIER -->
+  <!-- CERTIFICATE MODAL -->
   <div id="reportCardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
     <div id="certificatePrintArea" class="bg-slate-900 border-4 border-double border-indigo-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-10 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
-      
-      <button onclick="closeModal('reportCardModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-6 h-6"></i>
-      </button>
-
+      <button onclick="closeModal('reportCardModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
       <div class="text-center border-b border-indigo-500/30 pb-6 relative">
         <div class="flex items-center justify-center gap-2 mb-1">
           <i data-lucide="shield-check" class="w-8 h-8 text-amber-400"></i>
-          <span class="text-xs tracking-[0.3em] font-extrabold uppercase text-amber-400">ALGOFORGE • GLOBAL VERIFICATION STANDARDS</span>
+          <span class="text-[11px] tracking-[0.3em] font-extrabold uppercase text-amber-400">ALGOFORGE ENTERPRISE // ACCREDITATION</span>
         </div>
-        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white print-text-dark uppercase mt-1">
-          Certificate of Mastery
-        </h2>
-        <p class="text-xs text-indigo-300 font-mono mt-1">VALIDATED BY AUTONOMOUS SPACED REPETITION ENGINE</p>
+        <h2 class="text-3xl font-black text-white print-text-dark uppercase mt-1">Certificate of Algorithmic Mastery</h2>
+        <p class="text-xs text-indigo-300 font-mono mt-1">AUTONOMOUS SPACED REPETITION PROTOCOL</p>
       </div>
-
       <div class="text-center px-4 space-y-1">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">This official dossier verifies that</p>
-        <h3 id="repName" class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-purple-300 print-text-dark">
-          Keshav Gupta
-        </h3>
-        <p class="text-xs text-slate-300 max-w-xl mx-auto leading-relaxed">
-          has successfully satisfied verified problem retention in Data Structures & Algorithmic Problem Solving targeting the role of <b id="repRole" class="text-white print-text-dark underline decoration-indigo-500">Software Development Engineer</b> using <b id="repLanguage" class="text-indigo-400">C++</b>.
-        </p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider">This officially certifies that</p>
+        <h3 id="repName" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-purple-300 print-text-dark">Candidate</h3>
+        <p class="text-xs text-slate-300 max-w-xl mx-auto">Demonstrated cognitive retention in DSA targeting <b id="repRole" class="text-white print-text-dark">Software Development Engineer</b> using <b id="repLanguage" class="text-indigo-400">C++</b>.</p>
       </div>
-
-      <!-- Metrics Breakdown -->
       <div class="grid grid-cols-4 gap-3 text-center bg-slate-950/70 p-4 rounded-2xl border border-slate-800 print-bg-light">
-        <div>
-          <p class="text-[10px] text-slate-400 uppercase font-bold">Total Solved</p>
-          <p id="repTotalSolved" class="text-xl md:text-2xl font-mono font-black text-indigo-400 mt-0.5">0</p>
-        </div>
-        <div>
-          <p class="text-[10px] text-emerald-400 uppercase font-bold">Easy</p>
-          <p id="repEasy" class="text-xl md:text-2xl font-mono font-black text-emerald-400 mt-0.5">0</p>
-        </div>
-        <div>
-          <p class="text-[10px] text-amber-400 uppercase font-bold">Medium</p>
-          <p id="repMed" class="text-xl md:text-2xl font-mono font-black text-amber-400 mt-0.5">0</p>
-        </div>
-        <div>
-          <p class="text-[10px] text-rose-400 uppercase font-bold">Hard</p>
-          <p id="repHard" class="text-xl md:text-2xl font-mono font-black text-rose-400 mt-0.5">0</p>
-        </div>
+        <div><p class="text-[10px] text-slate-400 uppercase font-bold">Total</p><p id="repTotalSolved" class="text-xl font-black text-indigo-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-emerald-400 uppercase font-bold">Easy</p><p id="repEasy" class="text-xl font-black text-emerald-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-amber-400 uppercase font-bold">Medium</p><p id="repMed" class="text-xl font-black text-amber-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-rose-400 uppercase font-bold">Hard</p><p id="repHard" class="text-xl font-black text-rose-400 mt-0.5">0</p></div>
       </div>
-
-      <!-- Verification Footer with 3D Embossed Gold Wax Seal & Signature -->
       <div class="border-t border-indigo-500/30 pt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
         <div class="flex items-center gap-3">
-          <div id="qrcodeBox" class="p-2 bg-white rounded-xl shadow-inner border border-slate-200"></div>
+          <div id="qrcodeBox" class="p-1.5 bg-white rounded-xl"></div>
           <div>
-            <p class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Scan to Verify</p>
+            <p class="text-[10px] font-bold text-amber-400 uppercase">Verification</p>
             <p id="repCertId" class="text-[11px] font-mono text-slate-400 font-semibold"></p>
-            <p id="reportDate" class="text-[10px] text-slate-500 font-mono"></p>
+            <p id="repTimestamp" class="text-[10px] text-emerald-400 font-mono"></p>
           </div>
         </div>
-
-        <!-- NEW: Hyper-Realistic 3D Embossed Gold Wax Seal -->
         <div class="text-center hidden md:flex flex-col items-center justify-center">
-          <div class="w-16 h-16 rounded-full gold-wax-seal flex flex-col items-center justify-center text-amber-950 font-serif font-black select-none shadow-lg">
-            <span class="text-[9px] tracking-widest uppercase font-extrabold -mb-0.5">VERIFIED</span>
-            <span class="text-lg font-black leading-none">★</span>
-            <span class="text-[8px] tracking-wider uppercase font-bold">SEAL</span>
+          <div class="w-16 h-16 rounded-full gold-wax-seal flex flex-col items-center justify-center text-amber-950 font-black">
+            <span class="text-[9px] uppercase font-extrabold">VERIFIED</span>
+            <span class="text-lg leading-none">★</span>
+            <span class="text-[8px] uppercase font-bold">SEAL</span>
           </div>
-          <span class="text-[9px] font-mono text-amber-400/90 font-semibold tracking-wider mt-1.5 uppercase">Cryptographic Stamp</span>
         </div>
-
-        <!-- Official Executive Signature -->
         <div class="text-right flex flex-col items-end">
-          <div class="font-serif italic text-2xl md:text-3xl text-indigo-300 print-text-dark tracking-wide select-none" style="font-family: 'Brush Script MT', cursive, serif;">
-            Keshav Gupta
-          </div>
-          <div class="w-36 h-[1.5px] bg-gradient-to-r from-transparent to-indigo-400 my-1"></div>
+          <div class="font-signature text-3xl text-indigo-300 print-text-dark select-none">Keshav Gupta</div>
           <p class="text-xs font-bold text-white print-text-dark">Keshav Gupta</p>
-          <p class="text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Founder & Chief Executive Officer (CEO)</p>
+          <p class="text-[10px] text-amber-400 font-semibold uppercase">Founder &amp; CEO</p>
         </div>
       </div>
-
-      <!-- Corner Disclaimer Notice -->
-      <div class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
-        <span>Validation Endpoint: algoforge.enterprise/verify</span>
-        <span class="text-right italic">Notice: This is an academic project evaluation dossier generated for demonstration & candidate tracking purposes, not an accredited third-party degree.</span>
-      </div>
-
-      <div class="no-print pt-3 flex items-center justify-end">
-        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
-          <i data-lucide="printer" class="w-4 h-4"></i> Print Certificate (PDF)
+      <div class="no-print pt-4 flex items-center justify-between border-t border-slate-800">
+        <span class="text-[10px] text-slate-500">Official Dossier</span>
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print Dossier (PDF)
         </button>
       </div>
+    </div>
+  </div>
 
+  <div id="aboutModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('aboutModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 class="text-lg font-bold">About AlgoForge Cyber-Core</h3>
+      <p class="text-xs text-slate-400">Architected by Keshav Gupta to eradicate interview memory decay through staged mathematical spaced repetition.</p>
+      <div class="border-t border-slate-800 pt-3 flex justify-end">
+        <button onclick="closeModal('aboutModal')" class="bg-indigo-600 text-xs px-4 py-2 rounded-xl text-white">Close</button>
+      </div>
     </div>
   </div>
 
@@ -595,7 +576,21 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
     let cachedProblems = [];
     let calendarActivity = {};
     let activeDateFilter = null;
+    let activePatternFilter = "ALL";
     let currentUserProfile = null;
+    let isUserAuthenticated = false;
+    let currentActiveProblemId = null;
+    let currentActiveLanguage = "cpp";
+
+    let timerInterval = null;
+    let timeRemaining = 1500;
+    let isTimerRunning = false;
+
+    const BOILERPLATES = {
+      cpp: `#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass Solution {\npublic:\n    // Optimal C++ Logic\n};\n`,
+      python: `class Solution:\n    def solve(self) -> None:\n        # Optimal Python Logic\n        pass\n`,
+      java: `import java.util.*;\n\nclass Solution {\n    public void solve() {\n        // Optimal Java Logic\n    }\n}\n`
+    };
 
     const difficultyColors = {
       Easy: "bg-emerald-950 text-emerald-400 border-emerald-800",
@@ -603,78 +598,142 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
       Hard: "bg-rose-950 text-rose-400 border-rose-800"
     };
 
-    function openAboutModal() {
-      document.getElementById('aboutModal').classList.remove('hidden');
+    const consolePhrases = [
+      "SYSTEM_STATUS: ONLINE",
+      "AI_ALGOFORGE: READY (GEMINI NEURAL CORE)",
+      "MULTI_LANGUAGE_COMPILER: ACTIVE (C++ | PYTHON | JAVA)",
+      "LEETCODE_AUTOPILOT: SYNCHRONIZED"
+    ];
+    let phraseIndex = 0, charIndex = 0, isDeleting = false;
+    function runRoboticTypewriter() {
+      const el = document.getElementById("roboticConsoleOutput");
+      if (!el) return;
+      const cur = consolePhrases[phraseIndex];
+      el.innerText = isDeleting ? cur.substring(0, charIndex - 1) : cur.substring(0, charIndex + 1);
+      charIndex += isDeleting ? -1 : 1;
+      let spd = isDeleting ? 30 : 65;
+      if (!isDeleting && charIndex === cur.length) { spd = 2000; isDeleting = true; }
+      else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % consolePhrases.length; spd = 400; }
+      setTimeout(runRoboticTypewriter, spd);
     }
 
-    function checkNotificationStatus() {
-      if (!("Notification" in window)) return;
-      const btn = document.getElementById('notifyBtn');
-      const txt = document.getElementById('notifyBtnText');
-      if (Notification.permission === "granted") {
-        txt.innerText = "Reminders Active";
-        btn.classList.remove('hidden');
-        btn.classList.replace('bg-amber-950/40', 'bg-emerald-950/40');
-        btn.classList.replace('border-amber-800/60', 'border-emerald-800/60');
-        btn.classList.replace('text-amber-300', 'text-emerald-300');
-      } else if (Notification.permission !== "denied") {
-        btn.classList.remove('hidden');
+    function requireAuthentication() {
+      if (!isUserAuthenticated && !localStorage.getItem("active_user")) {
+        openAuthModal();
+        return false;
+      }
+      return true;
+    }
+
+    function applyTheme(isLight) {
+      if (isLight) {
+        document.body.classList.remove('bg-slate-950', 'text-slate-100');
+        document.body.classList.add('bg-slate-100', 'text-slate-900');
+        document.getElementById('themeIcon').innerText = '🌙';
+        document.getElementById('themeLabel').innerText = 'Dark';
+      } else {
+        document.body.classList.remove('bg-slate-100', 'text-slate-900');
+        document.body.classList.add('bg-slate-950', 'text-slate-100');
+        document.getElementById('themeIcon').innerText = '☀️';
+        document.getElementById('themeLabel').innerText = 'Light';
       }
     }
 
-    async function requestNotificationAccess() {
-      if (!("Notification" in window)) return alert("Browser notifications unsupported.");
-      const permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        new Notification("AlgoForge Suite", {
-          body: "Push notification alert initialized.",
-          icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png"
-        });
-        checkNotificationStatus();
+    function toggleTheme() {
+      const isCurrentlyLight = localStorage.getItem('theme_state') === 'light';
+      const target = !isCurrentlyLight;
+      localStorage.setItem('theme_state', target ? 'light' : 'dark');
+      applyTheme(target);
+    }
+
+    async function loadStreak() {
+      try {
+        const res = await fetch('/streak/calculate/');
+        const data = await res.json();
+        document.getElementById('streakBadgeCount').innerText = data.current_streak || 0;
+      } catch(e) {}
+    }
+
+    function filterByPattern(pattern) {
+      activePatternFilter = pattern;
+      document.getElementById('activePatternFilterLabel').innerText = `Viewing: ${pattern}`;
+      document.querySelectorAll('.pattern-pill').forEach(btn => {
+        if(btn.innerText.includes(pattern) || (pattern === "ALL" && btn.innerText === "All")) {
+          btn.className = "pattern-pill active px-2.5 py-1 text-[11px] rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium transition";
+        } else {
+          btn.className = "pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition";
+        }
+      });
+      loadData();
+    }
+
+    function startTimer(minutes) {
+      clearInterval(timerInterval);
+      timeRemaining = minutes * 60;
+      isTimerRunning = true;
+      document.getElementById('timerControlBtn').innerText = "PAUSE";
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          alert("Mock Interview Countdown Finished! Analyze complexity.");
+        } else {
+          timeRemaining--;
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      document.getElementById('timerCountdown').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        document.getElementById('timerControlBtn').innerText = "RESUME";
+      } else {
+        isTimerRunning = true;
+        document.getElementById('timerControlBtn').innerText = "PAUSE";
+        timerInterval = setInterval(() => {
+          if (timeRemaining <= 0) clearInterval(timerInterval);
+          else { timeRemaining--; updateTimerDisplay(); }
+        }, 1000);
       }
     }
 
-    function triggerIncompleteTargetAlert(completed, target) {
-      if (Notification.permission === "granted" && completed < target) {
-        new Notification("AlgoForge Daily Target Alert ⚠️", {
-          body: `Attention: Only ${completed}/${target} algorithmic problems solved today. Execute one more to preserve streak!`,
-          icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png"
-        });
-      }
+    function stopTimer() {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
     }
 
     async function renderCalendar() {
       const res = await fetch('/calendar/activity/');
       calendarActivity = await res.json();
-
       const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth();
-
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const year = today.getFullYear(), month = today.getMonth();
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       document.getElementById('calendarMonthYear').innerText = `${monthNames[month]} ${year}`;
-
       const firstDayIndex = new Date(year, month, 1).getDay();
       const totalDays = new Date(year, month + 1, 0).getDate();
-
       const grid = document.getElementById('calendarGrid');
       grid.innerHTML = "";
 
-      for (let i = 0; i < firstDayIndex; i++) {
-        grid.innerHTML += `<div class="h-8"></div>`;
-      }
+      for (let i = 0; i < firstDayIndex; i++) grid.innerHTML += `<div class="h-8"></div>`;
 
       for (let day = 1; day <= totalDays; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const count = calendarActivity[dateStr] || 0;
         const isToday = day === today.getDate();
-
         let bgClass = "bg-slate-950 border-slate-800 text-slate-400";
         if (count > 0) bgClass = "bg-indigo-600/30 border-indigo-500 text-indigo-300 font-bold";
         if (isToday) bgClass += " ring-1 ring-amber-400";
 
         grid.innerHTML += `
-          <button onclick="filterByDate('${dateStr}')" class="h-8 text-xs rounded-lg border flex flex-col items-center justify-center transition relative ${bgClass}">
+          <button onclick="handleCalendarDateClick('${dateStr}')" class="h-8 text-[11px] rounded-lg border flex flex-col items-center justify-center transition relative ${bgClass}">
             <span>${day}</span>
             ${count > 0 ? `<span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-0.5"></span>` : ''}
           </button>
@@ -682,7 +741,8 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
       }
     }
 
-    function filterByDate(dateStr) {
+    function handleCalendarDateClick(dateStr) {
+      if (!requireAuthentication()) return;
       activeDateFilter = dateStr;
       document.getElementById('filteredDateLabel').innerText = `Date: ${dateStr}`;
       document.getElementById('clearDateFilterBtn').classList.remove('hidden');
@@ -699,49 +759,34 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
       const easy = problems.filter(p => p.difficulty === "Easy").length;
       const medium = problems.filter(p => p.difficulty === "Medium").length;
       const hard = problems.filter(p => p.difficulty === "Hard").length;
-
       const ctx = document.getElementById('difficultyChart').getContext('2d');
       if (myChart) myChart.destroy();
-
       myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: ['Easy', 'Medium', 'Hard'],
-          datasets: [{
-            data: [easy, medium, hard],
-            backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'],
-            borderColor: '#020617',
-            borderWidth: 2
-          }]
+          datasets: [{ data: [easy, medium, hard], backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'], borderColor: '#020617', borderWidth: 2 }]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
-          }
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
       });
     }
 
     async function loadProfileAndRecs() {
-      const res = await fetch('/profile/');
+      const activeUser = localStorage.getItem("active_user");
+      let url = '/profile/';
+      if (activeUser) url += `?username=${encodeURIComponent(activeUser)}`;
+      const res = await fetch(url);
       currentUserProfile = await res.json();
 
       document.getElementById('profName').innerText = currentUserProfile.name;
-      document.getElementById('navUserName').innerText = currentUserProfile.name;
+      document.getElementById('drawerName').innerText = currentUserProfile.name;
+      document.getElementById('repName').innerText = currentUserProfile.name;
+      document.getElementById('navUserName').innerText = activeUser ? currentUserProfile.name : "Sign In";
       document.getElementById('profRole').innerText = `Role: ${currentUserProfile.target_role}`;
-      document.getElementById('profLevelBadge').innerText = currentUserProfile.experience_level;
       document.getElementById('profLanguage').innerText = currentUserProfile.primary_language;
 
-      document.getElementById('editName').value = currentUserProfile.name;
-      document.getElementById('editSolved').value = currentUserProfile.solved_count;
-      document.getElementById('editRole').value = currentUserProfile.target_role;
-      document.getElementById('editLanguage').value = currentUserProfile.primary_language;
-
-      const recRes = await fetch(`/recommendations/?level=${encodeURIComponent(currentUserProfile.experience_level)}`);
+      const recRes = await fetch(`/recommendations/?pattern=${activePatternFilter}`);
       const recs = await recRes.json();
-
       renderRecommendations(recs);
       lucide.createIcons();
     }
@@ -755,17 +800,29 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
               ${r.title} <i data-lucide="external-link" class="w-3 h-3"></i>
             </a>
             <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[10px] px-1.5 py-0.2 rounded border ${difficultyColors[r.difficulty]}">${r.difficulty}</span>
-              <span class="text-[10px] text-slate-400">${r.topic}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded border ${difficultyColors[r.difficulty]}">${r.difficulty}</span>
+              <span class="text-[9px] text-slate-400">${r.pattern || r.topic}</span>
             </div>
           </div>
-          <button onclick="quickAddRec('${r.title}', '${r.topic}', '${r.difficulty}', '${r.platform}', '${r.url}')" 
-                  class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-lg border border-indigo-500/40 transition whitespace-nowrap">
+          <button onclick="quickAddRec('${r.title}', '${r.topic}', '${r.difficulty}', '${r.url}')" 
+                  class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white text-[10px] font-semibold px-2 py-1 rounded border border-indigo-500/40 transition">
             + Log
           </button>
         </div>
       `).join('');
       lucide.createIcons();
+    }
+
+    async function quickAddRec(title, topic, difficulty, url) {
+      if (!requireAuthentication()) return;
+      await fetch('/problems/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, topic, difficulty, problem_url: url, notes: `Logged automatically.` })
+      });
+      loadData();
+      renderCalendar();
+      loadStreak();
     }
 
     async function fetchRandomChallenge() {
@@ -774,28 +831,16 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
       renderRecommendations([item]);
     }
 
-    async function quickAddRec(title, topic, difficulty, platform, url) {
-      await fetch('/problems/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, topic, difficulty, platform, problem_url: url, notes: `Standard reservoir question logged for ${currentUserProfile ? currentUserProfile.primary_language : 'C++'}.` })
-      });
-      loadData();
-      renderCalendar();
-    }
-
     async function loadData() {
       const targetRes = await fetch('/target/');
       const targetData = await targetRes.json();
       document.getElementById('targetCount').innerText = targetData.target_count;
 
-      triggerIncompleteTargetAlert(targetData.completed_count, targetData.target_count);
-
       const dueRes = await fetch('/problems/due-today/');
       const dueProblems = await dueRes.json();
 
-      let url = '/problems/';
-      if (activeDateFilter) url += `?solved_date=${activeDateFilter}`;
+      let url = `/problems/?pattern=${activePatternFilter}`;
+      if (activeDateFilter) url += `&solved_date=${activeDateFilter}`;
       const allRes = await fetch(url);
       cachedProblems = await allRes.json();
       document.getElementById('allCountBadge').innerText = `${cachedProblems.length} records`;
@@ -804,19 +849,19 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
 
       const dueContainer = document.getElementById('dueList');
       if (dueProblems.length === 0) {
-        dueContainer.innerHTML = `<div class="bg-slate-900/40 border border-dashed border-slate-800 rounded-xl p-3.5 text-center text-slate-400 text-xs">Zero retention revisions pending. Schedule optimal. 🔥</div>`;
+        dueContainer.innerHTML = `<div class="bg-slate-900/40 border border-dashed border-slate-800 rounded-xl p-3 text-center text-slate-400 text-xs">Zero retention revisions pending. Memory optimal. 🔥</div>`;
       } else {
         dueContainer.innerHTML = dueProblems.map(p => `
-          <div class="bg-slate-900 border border-amber-900/50 rounded-xl p-3.5 flex items-center justify-between gap-3 cursor-pointer hover:border-amber-600 transition" onclick="openProblemModal(${p.id})">
+          <div class="bg-slate-900 border border-amber-900/50 rounded-xl p-3 flex items-center justify-between gap-3 cursor-pointer hover:border-amber-600 transition" onclick="openProblemModal(${p.id})">
             <div>
               <div class="flex items-center gap-2">
-                <span class="font-bold text-white text-sm">${p.title}</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
-                <span class="text-xs text-indigo-300 font-mono">${p.platform}</span>
+                <span class="font-bold text-white text-xs">${p.title}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
+                <span class="text-[9px] text-indigo-400 font-mono">${p.pattern_tag || 'General'}</span>
               </div>
-              <p class="text-xs text-slate-400 mt-1 line-clamp-1">${p.notes || "No algorithmic intuition recorded"}</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">${p.notes || "No algorithmic notes recorded"}</p>
             </div>
-            <button onclick="event.stopPropagation(); markRevised(${p.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition whitespace-nowrap">
+            <button onclick="event.stopPropagation(); markRevised(${p.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-2.5 py-1 rounded-lg transition">
               ✓ Revised
             </button>
           </div>
@@ -825,22 +870,22 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
 
       const allContainer = document.getElementById('allList');
       if (cachedProblems.length === 0) {
-        allContainer.innerHTML = `<div class="text-xs text-slate-500">No problems currently registered in datastore.</div>`;
+        allContainer.innerHTML = `<div class="text-xs text-slate-500">Repository currently empty.</div>`;
       } else {
         allContainer.innerHTML = cachedProblems.map(p => `
-          <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-3.5 flex items-center justify-between gap-3 cursor-pointer transition" onclick="openProblemModal(${p.id})">
+          <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 cursor-pointer transition" onclick="openProblemModal(${p.id})">
             <div>
               <div class="flex items-center gap-2">
-                <span class="font-semibold text-indigo-200 text-sm hover:underline">${p.title}</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
-                <span class="text-xs text-slate-400 font-mono">${p.platform}</span>
+                <span class="font-semibold text-indigo-200 text-xs hover:underline">${p.title}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded border ${difficultyColors[p.difficulty]}">${p.difficulty}</span>
+                <span class="text-[9px] text-indigo-400 font-mono">${p.pattern_tag || 'General'}</span>
               </div>
-              <p class="text-xs text-slate-400 mt-0.5 line-clamp-1">${p.notes || "No notes available"}</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">${p.notes || "No notes"}</p>
             </div>
-            <div class="flex items-center gap-3">
-              <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700 font-mono">Stage #${p.revision_count}</span>
-              <button onclick="event.stopPropagation(); deleteProblem(${p.id})" class="text-slate-500 hover:text-rose-400 p-1.5 transition">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700">Stage #${p.revision_count}</span>
+              <button onclick="event.stopPropagation(); deleteProblem(${p.id})" class="text-slate-500 hover:text-rose-400 p-1">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -849,38 +894,53 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
       lucide.createIcons();
     }
 
+    function openUserHistoryDrawer() {
+      if (!requireAuthentication()) return;
+      document.getElementById('drawerName').innerText = currentUserProfile.name;
+      document.getElementById('drawerUsername').innerText = currentUserProfile.username || "candidate";
+      document.getElementById('drawerPhone').innerText = currentUserProfile.phone_number || "Verified in Datastore";
+      const historyContainer = document.getElementById('drawerProblemHistory');
+      historyContainer.innerHTML = cachedProblems.slice(0, 10).map(p => `
+        <div class="flex items-center justify-between bg-slate-950 p-2 rounded-lg border border-slate-800 text-[11px]">
+          <span class="text-slate-200 font-semibold truncate max-w-[200px]">${p.title}</span>
+          <span class="text-slate-400 text-[10px]">${p.solved_date || "Today"}</span>
+        </div>
+      `).join('');
+      document.getElementById('userHistoryModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
     async function generateReportCard() {
-      const profRes = await fetch('/profile/');
+      const activeUser = localStorage.getItem("active_user");
+      let url = '/profile/';
+      if (activeUser) url += `?username=${encodeURIComponent(activeUser)}`;
+      const profRes = await fetch(url);
       const prof = await profRes.json();
-      
       const allRes = await fetch('/problems/');
       const problems = await allRes.json();
 
-      const todayStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      const now = new Date();
+      const exactDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      const exactTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       const certId = `CERT-AF-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
-      document.getElementById('reportDate').innerText = `Issued: ${todayStr}`;
       document.getElementById('repName').innerText = prof.name;
       document.getElementById('repRole').innerText = prof.target_role;
       document.getElementById('repLanguage').innerText = prof.primary_language;
       document.getElementById('repCertId').innerText = certId;
-      document.getElementById('repTotalSolved').innerText = prof.solved_count + problems.length;
+      document.getElementById('repTimestamp').innerText = `Validated: ${exactDate} at ${exactTime} IST`;
 
+      document.getElementById('repTotalSolved').innerText = prof.solved_count + problems.length;
       document.getElementById('repEasy').innerText = problems.filter(p => p.difficulty === "Easy").length;
       document.getElementById('repMed').innerText = problems.filter(p => p.difficulty === "Medium").length;
       document.getElementById('repHard').innerText = problems.filter(p => p.difficulty === "Hard").length;
 
       const qrBox = document.getElementById('qrcodeBox');
       qrBox.innerHTML = "";
-      const verificationUrl = `https://algoforge.enterprise/verify/${certId}?candidate=${encodeURIComponent(prof.name)}&lang=${encodeURIComponent(prof.primary_language)}&count=${prof.solved_count + problems.length}`;
-      
       new QRCode(qrBox, {
-        text: verificationUrl,
+        text: `https://algoforge.enterprise/verify/${certId}?candidate=${encodeURIComponent(prof.name)}&time=${encodeURIComponent(exactDate + ' ' + exactTime)}&auth=KeshavGuptaCEO`,
         width: 68,
-        height: 68,
-        colorDark : "#0f172a",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.M
+        height: 68
       });
 
       document.getElementById('reportCardModal').classList.remove('hidden');
@@ -888,177 +948,241 @@ Intellectual Property of Keshav Gupta. Unlicensed copying prohibited.
     }
 
     async function purgeAllRecords() {
-      const confirmFirst = confirm("CRITICAL WARNING: Are you sure you want to delete ALL solved problems from the database?");
-      if (!confirmFirst) return;
-      const confirmSecond = confirm("Confirm once more: This action is irreversible. Proceed with complete database purge?");
-      if (confirmSecond) {
+      if (!requireAuthentication()) return;
+      if (confirm("Execute complete datastore wipe?")) {
         await fetch('/problems/all/purge', { method: 'DELETE' });
         loadData();
         renderCalendar();
+        loadStreak();
       }
     }
 
-    function openAuthModal() {
-      document.getElementById('authModal').classList.remove('hidden');
-    }
+    function openAboutModal() { document.getElementById('aboutModal').classList.remove('hidden'); }
+    function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
     function switchAuthTab(tab) {
       document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
       document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
-      document.getElementById('prefForm').classList.toggle('hidden', tab !== 'pref');
-
-      document.getElementById('tabLoginBtn').className = tab === 'login' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
-      document.getElementById('tabRegisterBtn').className = tab === 'register' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1 ml-4' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
-      document.getElementById('tabPrefBtn').className = tab === 'pref' ? 'text-sm font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1 ml-4' : 'text-sm font-medium text-slate-400 hover:text-white pb-1 ml-4';
+      document.getElementById('tabLoginBtn').className = tab === 'login' ? 'text-xs font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1' : 'text-xs font-medium text-slate-400 hover:text-white pb-1 ml-4';
+      document.getElementById('tabRegisterBtn').className = tab === 'register' ? 'text-xs font-bold text-indigo-400 border-b-2 border-indigo-500 pb-1' : 'text-xs font-medium text-slate-400 hover:text-white pb-1 ml-4';
     }
 
     async function handleLogin(e) {
       e.preventDefault();
-      const payload = {
-        username: document.getElementById('loginUsername').value,
-        password: document.getElementById('loginPassword').value
-      };
       const res = await fetch('/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          username: document.getElementById('loginUsername').value.trim(),
+          password: document.getElementById('loginPassword').value
+        })
       });
       if (res.ok) {
-        alert("Authentication verified successfully.");
+        const data = await res.json();
+        isUserAuthenticated = true;
+        localStorage.setItem("active_user", data.username);
+        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
+        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
         closeModal('authModal');
-        loadProfileAndRecs();
-      } else {
-        alert("Authentication rejected: Invalid credentials.");
-      }
+        await loadProfileAndRecs();
+        await loadData();
+      } else alert("Invalid credentials.");
     }
 
     async function handleRegister(e) {
       e.preventDefault();
       const payload = {
-        name: document.getElementById('regName').value,
-        username: document.getElementById('regUsername').value,
+        name: document.getElementById('regName').value.trim(),
+        username: document.getElementById('regUsername').value.trim(),
+        phone_number: document.getElementById('regPhone').value.trim(),
         password: document.getElementById('regPassword').value,
         primary_language: document.getElementById('regLanguage').value,
-        solved_count: parseInt(document.getElementById('regSolved').value) || 0,
-        target_role: document.getElementById('regRole').value
+        target_role: document.getElementById('regRole').value,
+        solved_count: 20
       };
+
       const res = await fetch('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       if (res.ok) {
-        alert("Account registered securely into datastore.");
+        const data = await res.json();
+        alert(`Account registered successfully for ${data.name}!`);
+        isUserAuthenticated = true;
+        localStorage.setItem("active_user", data.username);
+        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
+        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
         closeModal('authModal');
-        loadProfileAndRecs();
+        await loadProfileAndRecs();
+        await loadData();
       } else {
         const err = await res.json();
-        alert(`Registration failed: ${err.detail}`);
+        alert(`Registration rejected: ${err.detail}`);
       }
     }
 
-    async function saveProfile() {
-      const payload = {
-        name: document.getElementById('editName').value || "Candidate",
-        solved_count: parseInt(document.getElementById('editSolved').value) || 0,
-        target_role: document.getElementById('editRole').value || "Software Engineer",
-        primary_language: document.getElementById('editLanguage').value || "C++"
-      };
+    function switchLanguageTab(lang) {
+      currentActiveLanguage = lang;
+      const editor = document.getElementById('modalCodeEditor');
+      const label = document.getElementById('editorLanguageLabel');
+      const statusText = document.getElementById('saveCodeStatus');
+      statusText.innerText = "";
 
-      await fetch('/profile/', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const p = cachedProblems.find(x => x.id === currentActiveProblemId);
+      const fileNames = { cpp: "solution.cpp", python: "solution.py", java: "Solution.java" };
+      label.innerText = fileNames[lang] || "solution";
 
-      closeModal('authModal');
-      await loadProfileAndRecs();
-      await renderCalendar();
+      const btnCpp = document.getElementById('tabCpp');
+      const btnPy = document.getElementById('tabPython');
+      const btnJava = document.getElementById('tabJava');
+
+      [btnCpp, btnPy, btnJava].forEach(b => b.className = "px-3 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition");
+
+      if (lang === "cpp") {
+        btnCpp.className = "px-3 py-1 rounded-lg font-bold bg-indigo-600 text-white transition";
+        editor.value = (p && p.code_cpp) ? p.code_cpp : BOILERPLATES.cpp;
+      } else if (lang === "python") {
+        btnPy.className = "px-3 py-1 rounded-lg font-bold bg-indigo-600 text-white transition";
+        editor.value = (p && p.code_python) ? p.code_python : BOILERPLATES.python;
+      } else if (lang === "java") {
+        btnJava.className = "px-3 py-1 rounded-lg font-bold bg-indigo-600 text-white transition";
+        editor.value = (p && p.code_java) ? p.code_java : BOILERPLATES.java;
+      }
     }
 
     function openProblemModal(id) {
       const p = cachedProblems.find(x => x.id === id);
       if (!p) return;
-
+      currentActiveProblemId = id;
       document.getElementById('modalTitle').innerText = p.title;
-      document.getElementById('modalTopic').innerText = p.topic;
-      document.getElementById('modalNotes').innerText = p.notes || "No algorithmic intuition recorded for this entry.";
-      document.getElementById('modalPlatform').innerText = p.platform;
+      document.getElementById('modalNotes').innerText = p.notes || "No algorithmic intuition recorded.";
+      document.getElementById('modalPattern').innerText = p.pattern_tag || "General";
+      document.getElementById('saveCodeStatus').innerText = "";
 
       const diffBadge = document.getElementById('modalDiff');
       diffBadge.innerText = p.difficulty;
-      diffBadge.className = `text-xs px-2 py-0.5 rounded border ${difficultyColors[p.difficulty]}`;
+      diffBadge.className = `text-[10px] px-2 py-0.5 rounded border ${difficultyColors[p.difficulty]}`;
 
       const linkBtn = document.getElementById('modalProblemLink');
-      if (p.problem_url) {
-        linkBtn.href = p.problem_url;
-        linkBtn.classList.remove('hidden');
-      } else {
-        linkBtn.classList.add('hidden');
-      }
+      if (p.problem_url) { linkBtn.href = p.problem_url; linkBtn.classList.remove('hidden'); } else linkBtn.classList.add('hidden');
 
-      const lang = currentUserProfile ? currentUserProfile.primary_language : 'C++';
-      
-      // Google Search Button
-      const googleBtn = document.getElementById('modalGoogleBtn');
-      googleBtn.onclick = () => {
-        window.open(`https://www.google.com/search?q=${encodeURIComponent(p.title + ' ' + p.topic + ' in ' + lang + ' solution optimal')}`, '_blank');
-      };
-
-      // Direct Gemini AI Assistant Integration Button
-      const geminiBtn = document.getElementById('modalGeminiBtn');
-      geminiBtn.onclick = () => {
-        const promptText = `Explain optimal algorithm for "${p.title}" (${p.topic}) in ${lang} with time and space complexity analysis.`;
-        window.open(`https://gemini.google.com/app?prompt=${encodeURIComponent(promptText)}`, '_blank');
-      };
-
+      switchLanguageTab("cpp");
+      const timeMap = { Easy: 15, Medium: 25, Hard: 45 };
+      startTimer(timeMap[p.difficulty] || 25);
       document.getElementById('detailModal').classList.remove('hidden');
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    document.getElementById('problemForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = {
-        title: document.getElementById('title').value,
-        topic: document.getElementById('topic').value,
-        difficulty: document.getElementById('difficulty').value,
-        platform: document.getElementById('platform').value,
-        problem_url: document.getElementById('problem_url').value || null,
-        notes: document.getElementById('notes').value || null
-      };
-
-      await fetch('/problems/', {
-        method: 'POST',
+    async function saveCurrentCodeSnippet() {
+      if (!currentActiveProblemId) return;
+      const code = document.getElementById('modalCodeEditor').value;
+      const res = await fetch(`/problems/${currentActiveProblemId}/code`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ language: currentActiveLanguage, code })
       });
-
-      document.getElementById('problemForm').reset();
-      loadData();
-      renderCalendar();
-    });
-
-    async function markRevised(id) {
-      await fetch(`/problems/${id}/revise`, { method: 'PUT' });
-      loadData();
-    }
-
-    async function deleteProblem(id) {
-      if (confirm("Delete this problem record permanently?")) {
-        await fetch(`/problems/${id}`, { method: 'DELETE' });
-        loadData();
-        renderCalendar();
+      if (res.ok) {
+        document.getElementById('saveCodeStatus').innerText = `${currentActiveLanguage.toUpperCase()} Solution Saved ✓`;
+        const target = cachedProblems.find(x => x.id === currentActiveProblemId);
+        if (target) {
+          if (currentActiveLanguage === "cpp") target.code_cpp = code;
+          else if (currentActiveLanguage === "python") target.code_python = code;
+          else if (currentActiveLanguage === "java") target.code_java = code;
+        }
       }
     }
 
-    // Startup Initializer
-    checkNotificationStatus();
-    loadProfileAndRecs();
-    renderCalendar();
-    loadData();
+    // ==========================================
+    // DIRECT GEMINI AI MENTOR INTEGRATION
+    // ==========================================
+    // 1. General Floating AI Button Click -> Opens Gemini AI Interface
+    function launchGeminiAIMentor() {
+      const defaultPrompt = encodeURIComponent("Hey Gemini, you are my Algorithmic and DSA Mentor on AlgoForge Pro. Help me understand data structures, pattern logic, and optimal code complexities.");
+      window.open(`https://gemini.google.com/app?prompt=${defaultPrompt}`, '_blank');
+    }
+
+    // 2. Problem-specific Gemini Click -> Pre-fills problem statement & optimal query
+    function launchGeminiAIMentorForProblem() {
+      const p = cachedProblems.find(x => x.id === currentActiveProblemId);
+      if (!p) return launchGeminiAIMentor();
+      const specificPrompt = encodeURIComponent(`I am solving "${p.title}" on AlgoForge Pro. Topic: ${p.topic}, Difficulty: ${p.difficulty}. Please explain the step-by-step intuition, edge cases, and optimal approach in ${currentActiveLanguage.toUpperCase()} without giving the full answer right away.`);
+      window.open(`https://gemini.google.com/app?prompt=${specificPrompt}`, '_blank');
+    }
+
+    // AUTOMATED ONE-CLICK LEETCODE PROBLEM COMMIT HANDLER
+    document.getElementById('problemForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!requireAuthentication()) return;
+
+      const queryInput = document.getElementById('leetcodeQuery').value.trim();
+      const notesInput = document.getElementById('notes').value.trim();
+      const btnText = document.getElementById('commitBtnText');
+
+      btnText.innerText = "Resolving LeetCode...";
+
+      try {
+        const lookupRes = await fetch(`/api/leetcode-lookup?query=${encodeURIComponent(queryInput)}`);
+        const lookupData = await lookupRes.json();
+
+        const payload = {
+          title: lookupData.title,
+          topic: lookupData.topic,
+          difficulty: lookupData.difficulty,
+          pattern_tag: lookupData.pattern,
+          platform: "LeetCode",
+          problem_url: lookupData.url,
+          notes: notesInput || `Auto-resolved LeetCode problem (${lookupData.pattern}) committed to bank.`
+        };
+
+        await fetch('/problems/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        document.getElementById('problemForm').reset();
+        btnText.innerText = "Auto-Fetch & Commit to Bank";
+        loadData();
+        renderCalendar();
+        loadStreak();
+      } catch (err) {
+        alert("Failed to resolve LeetCode problem. Check number or connection.");
+        btnText.innerText = "Auto-Fetch & Commit to Bank";
+      }
+    });
+
+    async function markRevised(id) {
+      if (!requireAuthentication()) return;
+      await fetch(`/problems/${id}/revise`, { method: 'PUT' });
+      loadData();
+      loadStreak();
+    }
+
+    async function deleteProblem(id) {
+      if (!requireAuthentication()) return;
+      if (confirm("Delete entry permanently?")) {
+        await fetch(`/problems/${id}`, { method: 'DELETE' });
+        loadData();
+        renderCalendar();
+        loadStreak();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme_state') === 'light') applyTheme(true);
+      if (localStorage.getItem("active_user")) {
+        isUserAuthenticated = true;
+        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
+        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
+      }
+      runRoboticTypewriter();
+      loadStreak();
+      loadProfileAndRecs();
+      renderCalendar();
+      loadData();
+    });
   </script>
 </body>
 </html>

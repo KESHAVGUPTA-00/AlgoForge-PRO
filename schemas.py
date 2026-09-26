@@ -4,6 +4,11 @@
 # All Rights Reserved. Unauthorized copying, distribution, or claiming authorship
 # of this software architecture is strictly prohibited by copyright law.
 # ==============================================================================
+# ==============================================================================
+# Project: AlgoForge Pro Enterprise
+# Author & Copyright Owner: Keshav Gupta (c) 2026
+# All Rights Reserved.
+# ==============================================================================
 from pydantic import BaseModel
 from datetime import date
 from typing import Optional
@@ -15,6 +20,8 @@ class ProblemBase(BaseModel):
     difficulty: str
     problem_url: Optional[str] = None
     notes: Optional[str] = None
+    code_snippet: Optional[str] = None
+    pattern_tag: Optional[str] = "General"
 
 class ProblemCreate(ProblemBase):
     pass
@@ -32,6 +39,7 @@ class UserRegister(BaseModel):
     username: str
     password: str
     name: str
+    phone_number: Optional[str] = None
     primary_language: str
     target_role: str
     solved_count: int
