@@ -1,5 +1,5 @@
 # ==============================================================================
-# Project: AlgoForge Pro Enterprise
+# Project: AlgoForge Pro Enterprise (Official Corporate Vault Edition)
 # Author & Copyright Owner: Keshav Gupta (c) 2026
 # All Rights Reserved.
 # ==============================================================================
@@ -19,7 +19,6 @@ from database import engine, Base, get_db
 import models
 import schemas
 
-# SQLite Schema Auto-Patcher for Multi-Language Code Columns
 def auto_patch_database():
     db_file = "dsa_tracker.db"
     if os.path.exists(db_file):
@@ -65,7 +64,7 @@ def sync_all_leetcode_questions():
             url,
             headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
         )
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with urllib.request.urlopen(req, timeout=8) as resp:
             data = json.loads(resp.read().decode())
             diff_map = {1: "Easy", 2: "Medium", 3: "Hard"}
             for item in data.get("stat_status_pairs", []):
@@ -85,9 +84,8 @@ def sync_all_leetcode_questions():
                 LEETCODE_GLOBAL_CACHE[q_id] = payload
                 LEETCODE_GLOBAL_CACHE[title.lower()] = payload
                 LEETCODE_GLOBAL_CACHE[slug.lower()] = payload
-            print(f"✅ Successfully synchronized {len(LEETCODE_GLOBAL_CACHE)} LeetCode problems into memory!")
     except Exception as e:
-        print(f"⚠️ LeetCode live sync notice: {e}. Fallback active.")
+        print(f"LeetCode live sync notice: {e}")
 
 @app.on_event("startup")
 async def startup_event():
@@ -150,7 +148,7 @@ async def leetcode_lookup(query: str):
             data=json.dumps(query_payload).encode('utf-8'),
             headers={'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0'}
         )
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=4) as resp:
             res_data = json.loads(resp.read().decode())
             quest = res_data.get("data", {}).get("question")
             if quest:
@@ -167,27 +165,33 @@ async def leetcode_lookup(query: str):
 
 @app.get("/profile/")
 def get_profile(username: Optional[str] = Query(None), db: Session = Depends(get_db)):
-    prof = None
-    if username:
-        prof = db.query(models.UserProfile).filter(models.UserProfile.username == username).first()
+    if not username:
+        return {
+            "authenticated": False,
+            "name": "Guest Candidate",
+            "username": "guest",
+            "solved_count": 0,
+            "target_role": "Sign In to Unlock Workspace",
+            "primary_language": "--",
+            "experience_level": "Unauthenticated",
+            "phone_number": "Not Registered"
+        }
+
+    prof = db.query(models.UserProfile).filter(models.UserProfile.username == username).first()
     if not prof:
-        prof = db.query(models.UserProfile).order_by(models.UserProfile.id.desc()).first()
-    if not prof:
-        prof = models.UserProfile(
-            username="candidate",
-            hashed_password=hash_password("admin123"),
-            name="Keshav Gupta",
-            solved_count=20,
-            target_role="Software Development Engineer",
-            primary_language="C++",
-            experience_level="Beginner",
-            phone_number="Verified"
-        )
-        db.add(prof)
-        db.commit()
-        db.refresh(prof)
+        return {
+            "authenticated": False,
+            "name": "Guest Candidate",
+            "username": "guest",
+            "solved_count": 0,
+            "target_role": "Sign In to Unlock Workspace",
+            "primary_language": "--",
+            "experience_level": "Unauthenticated",
+            "phone_number": "Not Registered"
+        }
 
     return {
+        "authenticated": True,
         "id": prof.id,
         "name": prof.name,
         "username": prof.username,
@@ -202,7 +206,7 @@ def get_profile(username: Optional[str] = Query(None), db: Session = Depends(get
 def login(creds: schemas.UserLogin, db: Session = Depends(get_db)):
     user = db.query(models.UserProfile).filter(models.UserProfile.username == creds.username).first()
     if not user or not verify_password(user.hashed_password, creds.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid username or password")
     return {"message": "Success", "username": user.username, "name": user.name}
 
 @app.post("/auth/register")
@@ -213,7 +217,7 @@ def register(user_data: dict, db: Session = Depends(get_db)):
 
     existing = db.query(models.UserProfile).filter(models.UserProfile.username == username).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Username already claimed")
+        raise HTTPException(status_code=400, detail="Username is already claimed")
     
     new_user = models.UserProfile(
         username=username,
@@ -227,7 +231,7 @@ def register(user_data: dict, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": "Account registered securely", "username": new_user.username, "name": new_user.name}
+    return {"message": "Account created successfully", "username": new_user.username, "name": new_user.name}
 
 @app.get("/streak/calculate/")
 def get_streak(db: Session = Depends(get_db)):
@@ -266,6 +270,44 @@ def get_target(db: Session = Depends(get_db)):
     db.commit()
     return {"target_count": target.target_count, "completed_count": target.completed_count}
 
+BLIND75_DATABASE = [
+    {"num": "1", "title": "Two Sum", "topic": "Arrays & Hashing", "difficulty": "Easy", "pattern": "Two Pointers"},
+    {"num": "121", "title": "Best Time to Buy and Sell Stock", "topic": "Sliding Window", "difficulty": "Easy", "pattern": "Sliding Window"},
+    {"num": "217", "title": "Contains Duplicate", "topic": "Arrays & Hashing", "difficulty": "Easy", "pattern": "Hashing"},
+    {"num": "238", "title": "Product of Array Except Self", "topic": "Prefix Sum", "difficulty": "Medium", "pattern": "Arrays"},
+    {"num": "53", "title": "Maximum Subarray", "topic": "Dynamic Programming", "difficulty": "Medium", "pattern": "Kadane's"},
+    {"num": "15", "title": "3Sum", "topic": "Two Pointers", "difficulty": "Medium", "pattern": "Two Pointers"},
+    {"num": "11", "title": "Container With Most Water", "topic": "Two Pointers", "difficulty": "Medium", "pattern": "Two Pointers"},
+    {"num": "3", "title": "Longest Substring Without Repeating", "topic": "Sliding Window", "difficulty": "Medium", "pattern": "Sliding Window"},
+    {"num": "20", "title": "Valid Parentheses", "topic": "Stacks", "difficulty": "Easy", "pattern": "Monotonic Stack"},
+    {"num": "206", "title": "Reverse Linked List", "topic": "Linked Lists", "difficulty": "Easy", "pattern": "Two Pointers"},
+    {"num": "141", "title": "Linked List Cycle", "topic": "Linked Lists", "difficulty": "Easy", "pattern": "Fast & Slow Pointers"},
+    {"num": "21", "title": "Merge Two Sorted Lists", "topic": "Linked Lists", "difficulty": "Easy", "pattern": "Two Pointers"},
+    {"num": "704", "title": "Binary Search", "topic": "Binary Search", "difficulty": "Easy", "pattern": "Binary Search"},
+    {"num": "33", "title": "Search in Rotated Sorted Array", "topic": "Binary Search", "difficulty": "Medium", "pattern": "Binary Search"},
+    {"num": "70", "title": "Climbing Stairs", "topic": "Dynamic Programming", "difficulty": "Easy", "pattern": "Dynamic Programming"},
+    {"num": "198", "title": "House Robber", "topic": "Dynamic Programming", "difficulty": "Medium", "pattern": "Dynamic Programming"},
+    {"num": "200", "title": "Number of Islands", "topic": "Graphs", "difficulty": "Medium", "pattern": "BFS/DFS"}
+]
+
+@app.get("/api/blind75")
+def get_blind75_status(db: Session = Depends(get_db)):
+    solved_titles = [p.title.lower() for p in db.query(models.Problem.title).all()]
+    annotated = []
+    completed_count = 0
+    for item in BLIND75_DATABASE:
+        is_done = any(item["title"].lower() in t or f"#{item['num']}." in t for t in solved_titles)
+        if is_done:
+            completed_count += 1
+        annotated.append({**item, "completed": is_done})
+    
+    return {
+        "total": len(BLIND75_DATABASE),
+        "completed": completed_count,
+        "percentage": round((completed_count / len(BLIND75_DATABASE)) * 100),
+        "items": annotated
+    }
+
 RESERVOIR = [
     {"title": "#1. Two Sum", "topic": "Arrays & Hashing", "difficulty": "Easy", "platform": "LeetCode", "url": "https://leetcode.com/problems/two-sum", "pattern": "Two Pointers"},
     {"title": "#20. Valid Parentheses", "topic": "Stacks", "difficulty": "Easy", "platform": "LeetCode", "url": "https://leetcode.com/problems/valid-parentheses", "pattern": "Monotonic Stack"},
@@ -291,7 +333,6 @@ def get_problems(solved_date: Optional[str] = None, pattern: Optional[str] = Non
         query = query.filter(models.Problem.pattern_tag == pattern)
     
     probs = query.order_by(models.Problem.id.desc()).all()
-    # Explicit dictionary serialization to ensure code columns return accurately
     return [
         {
             "id": p.id,
@@ -357,7 +398,6 @@ def add_problem(problem: dict, db: Session = Depends(get_db)):
     db.refresh(new_prob)
     return {"message": "Success", "id": new_prob.id}
 
-# Multi-Language Code Update Endpoint
 @app.put("/problems/{problem_id}/code")
 def update_problem_code(problem_id: int, payload: dict, db: Session = Depends(get_db)):
     prob = db.query(models.Problem).filter(models.Problem.id == problem_id).first()
@@ -375,7 +415,7 @@ def update_problem_code(problem_id: int, payload: dict, db: Session = Depends(ge
         prob.code_java = code
 
     db.commit()
-    return {"message": f"{lang.upper()} code committed to datastore"}
+    return {"message": f"{lang.upper()} solution committed to datastore"}
 
 @app.put("/problems/{problem_id}/revise")
 def mark_revised(problem_id: int, db: Session = Depends(get_db)):

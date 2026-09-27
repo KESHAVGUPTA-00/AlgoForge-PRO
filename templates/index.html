@@ -13,7 +13,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;800&family=Alex+Brush&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;800&family=Alex+Brush&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,7 +23,8 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         extend: {
           fontFamily: {
             mono: ['"Fira Code"', '"JetBrains Mono"', 'monospace'],
-            signature: ['"Alex Brush"', 'cursive']
+            signature: ['"Alex Brush"', 'cursive'],
+            institution: ['"Cinzel"', 'serif']
           }
         }
       }
@@ -53,7 +54,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       50.1%, 100% { opacity: 0; }
     }
     
-    /* Glowing Pulse effect for Floating AI Button */
     .ai-floating-glow {
       box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 40px rgba(99, 102, 241, 0.3);
       animation: floatGlow 3s ease-in-out infinite;
@@ -66,11 +66,11 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 
     @media print {
       body * { visibility: hidden; }
-      #certificatePrintArea, #certificatePrintArea * { visibility: visible; }
-      #certificatePrintArea {
+      #printableArea, #printableArea * { visibility: visible; }
+      #printableArea {
         position: absolute; left: 0; top: 0; width: 100%;
         background: #ffffff !important; color: #0f172a !important;
-        border: 4px double #4338ca !important; box-shadow: none !important; padding: 24px !important;
+        border: none !important; box-shadow: none !important; padding: 20px !important;
       }
       .no-print { display: none !important; }
       .print-text-dark { color: #0f172a !important; }
@@ -81,7 +81,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-200 relative">
 
   <div class="flex-grow">
-    <!-- Header -->
+    <!-- Un-Cluttered Streamlined Header -->
     <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         
@@ -99,7 +99,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
                 ALGOFORGE_PRO
               </h1>
               <span class="text-[10px] bg-indigo-950 border border-indigo-800 text-indigo-400 px-1.5 py-0.5 rounded font-mono">
-                v4.0_GEMINI_AI
+                v5.0_VAULT
               </span>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
@@ -109,6 +109,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           </div>
         </div>
 
+        <!-- Clean Header Actions -->
         <div class="flex items-center gap-2">
           <!-- Daily Streak Badge -->
           <div class="flex items-center gap-1.5 bg-amber-950/40 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
@@ -116,21 +117,18 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
             <span>STREAK: <b id="streakBadgeCount" class="text-white font-mono">0</b>d</span>
           </div>
 
+          <!-- Central Corporate Vault Launcher -->
+          <button onclick="openDocumentsVaultModal()" class="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-amber-600/30 border border-indigo-500/50 hover:border-amber-400 text-indigo-200 hover:text-white text-xs px-3.5 py-1.5 rounded-xl transition font-semibold shadow-sm">
+            <i data-lucide="folder-lock" class="w-4 h-4 text-amber-400"></i>
+            <span>Documents Vault</span>
+          </button>
+
           <!-- Light/Dark Toggle -->
           <button onclick="toggleTheme()" id="themeBtn" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-2.5 py-1.5 rounded-xl transition flex items-center gap-1">
             <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
           </button>
 
-          <button onclick="fetchRandomChallenge()" class="hidden md:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-xl transition">
-            <i data-lucide="shuffle" class="w-4 h-4 text-indigo-400"></i>
-            <span>Shuffle</span>
-          </button>
-
-          <button onclick="generateReportCard()" class="flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 border border-amber-500/50 hover:border-amber-400 text-amber-300 text-xs px-3.5 py-1.5 rounded-xl transition font-semibold shadow-lg shadow-amber-500/10">
-            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
-            <span class="hidden sm:inline">Dossier</span>
-          </button>
-
+          <!-- Account Sign In -->
           <button onclick="openAuthModal()" class="flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
             <i data-lucide="shield-check" class="w-4 h-4"></i>
             <span id="navUserName">Sign In</span>
@@ -155,20 +153,34 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
               </div>
               <p id="profRole" class="text-xs text-slate-400 mt-0.5">Role: Software Engineer</p>
             </div>
-            <span id="profLevelBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-950 border border-indigo-800 text-indigo-400">
-              Verified Candidate
+            <span id="profLevelBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-400">
+              Locked
             </span>
           </div>
 
           <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-300">
-            <span>Primary Language: <b id="profLanguage" class="text-indigo-400">C++</b></span>
+            <span>Primary Language: <b id="profLanguage" class="text-indigo-400">--</b></span>
             <span>Target Today: <b id="targetCount" class="text-indigo-400">3</b></span>
           </div>
 
           <div class="mt-3 text-[11px] text-indigo-400/80 group-hover:text-indigo-300 flex items-center justify-between border-t border-slate-800/80 pt-2 font-mono">
-            <span>⚡ Inspect Candidate Ledger</span>
-            <span id="authStatusBadge" class="text-[10px] text-amber-400">Guest Access</span>
+            <span>⚡ Candidate Dossier Ledger</span>
+            <span id="authStatusBadge" class="text-[10px] text-amber-400">Session Locked</span>
           </div>
+        </div>
+
+        <!-- Blind 75 Milestone Card -->
+        <div onclick="openBlind75Modal()" class="bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 shadow-xl cursor-pointer transition">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="list-checks" class="w-4 h-4 text-cyan-400"></i> Blind 75 Roadmap
+            </span>
+            <span id="blind75Percent" class="text-cyan-400 font-mono font-bold">0%</span>
+          </div>
+          <div class="w-full bg-slate-950 rounded-full h-2 border border-slate-800 overflow-hidden">
+            <div id="blind75ProgressBar" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          </div>
+          <p id="blind75Ratio" class="text-[10px] text-slate-400 mt-2 font-mono">0 of 17 Core Benchmarks Verified</p>
         </div>
 
         <!-- Execution Calendar -->
@@ -186,26 +198,23 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           <div id="calendarGrid" class="grid grid-cols-7 gap-1.5"></div>
         </div>
 
-        <!-- QUICK 1-CLICK LEETCODE COMMIT FORM -->
+        <!-- LeetCode 1-Click Commit -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-xs font-bold flex items-center gap-2 text-indigo-300 uppercase tracking-wider">
-              <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Quick LeetCode Commit
+              <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> LeetCode Autopilot
             </h3>
             <span class="text-[9px] bg-amber-950 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">AUTOPILOT</span>
           </div>
 
           <form id="problemForm" class="space-y-3">
             <div>
-              <label class="block text-[11px] text-slate-300 font-semibold mb-1">
-                LeetCode Number or Problem Slug
-              </label>
+              <label class="block text-[11px] text-slate-300 font-semibold mb-1">LeetCode Number or Problem Slug</label>
               <div class="relative">
                 <input type="text" id="leetcodeQuery" required placeholder="e.g. 1 OR 15 OR 206 OR 2042"
                        class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-3 pr-20 py-2.5 text-xs focus:outline-none focus:border-indigo-500 text-slate-100 font-mono"/>
                 <span class="absolute right-2.5 top-2.5 text-[10px] text-indigo-400 font-mono">LeetCode</span>
               </div>
-              <p class="text-[9px] text-slate-500 mt-1">Automatic sync across 3000+ LeetCode problems.</p>
             </div>
 
             <div>
@@ -216,17 +225,17 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 
             <button type="submit" id="commitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium py-2.5 rounded-lg text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
               <i data-lucide="check" class="w-4 h-4"></i>
-              <span id="commitBtnText">Auto-Fetch &amp; Commit to Bank</span>
+              <span id="commitBtnText">Commit to Solved Bank</span>
             </button>
           </form>
         </div>
 
-        <!-- Danger Zone -->
+        <!-- Purge Danger Zone -->
         <div class="bg-rose-950/20 border border-rose-900/40 rounded-2xl p-4">
           <h4 class="text-[11px] font-bold uppercase tracking-wider text-rose-400 mb-1 flex items-center gap-1.5">
             <i data-lucide="alert-triangle" class="w-4 h-4"></i> Datastore Controls
           </h4>
-          <p class="text-[10px] text-slate-400 mb-3">Irreversibly wipes all tracked problems.</p>
+          <p class="text-[10px] text-slate-400 mb-3">Irreversibly resets tracked records.</p>
           <button onclick="purgeAllRecords()" class="w-full bg-rose-900/30 hover:bg-rose-600 border border-rose-700/50 hover:border-rose-500 text-rose-300 hover:text-white text-xs font-semibold py-2 rounded-lg transition flex items-center justify-center gap-2">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Purge Datastore
           </button>
@@ -236,21 +245,23 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       <!-- Right 2 Columns -->
       <div class="lg:col-span-2 space-y-6">
 
-        <!-- Pattern Filter Bar -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg">
-          <div class="flex items-center justify-between mb-2">
-            <h4 class="text-xs font-bold uppercase text-slate-300 flex items-center gap-2">
+        <!-- Pattern Filter Bar with Flashcards Button -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h4 class="text-xs font-bold uppercase text-slate-300 flex items-center gap-2 mb-2">
               <i data-lucide="filter" class="w-4 h-4 text-indigo-400"></i> Algorithmic Pattern Filters
             </h4>
-            <span id="activePatternFilterLabel" class="text-[10px] text-indigo-400 font-mono">Viewing: ALL</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button onclick="filterByPattern('ALL')" class="pattern-pill active px-2.5 py-1 text-[11px] rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium transition">All</button>
+              <button onclick="filterByPattern('Two Pointers')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Two Pointers</button>
+              <button onclick="filterByPattern('Sliding Window')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Sliding Window</button>
+              <button onclick="filterByPattern('Binary Search')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Binary Search</button>
+              <button onclick="filterByPattern('Monotonic Stack')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Monotonic Stack</button>
+            </div>
           </div>
-          <div class="flex flex-wrap gap-1.5">
-            <button onclick="filterByPattern('ALL')" class="pattern-pill active px-2.5 py-1 text-[11px] rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium transition">All</button>
-            <button onclick="filterByPattern('Two Pointers')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Two Pointers</button>
-            <button onclick="filterByPattern('Sliding Window')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Sliding Window</button>
-            <button onclick="filterByPattern('Binary Search')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Binary Search</button>
-            <button onclick="filterByPattern('Monotonic Stack')" class="pattern-pill px-2.5 py-1 text-[11px] rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:border-indigo-500 transition">Monotonic Stack</button>
-          </div>
+          <button onclick="openCheatSheetModal()" class="bg-indigo-950/80 border border-indigo-700/60 hover:border-indigo-500 text-indigo-300 text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5 self-start sm:self-center">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Flashcards
+          </button>
         </div>
 
         <!-- Curated Reservoir -->
@@ -267,7 +278,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           <div id="recContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
         </div>
 
-        <!-- Chart Matrix -->
+        <!-- Doughnut Matrix -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
           <h3 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-2 uppercase tracking-wider">
             <i data-lucide="pie-chart" class="w-4 h-4 text-purple-400"></i> Cognitive Mastery Matrix
@@ -304,16 +315,12 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
     </main>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- FLOATING PERSISTENT CIRCULAR "AI ALGOFORGE" WIDGET (RIGHT BOTTOM) -->
-  <!-- ======================================================== -->
+  <!-- PERSISTENT FLOATING AI WIDGET (BOTTOM RIGHT) -->
   <div class="fixed bottom-6 right-6 z-50 flex items-center group select-none">
-    <!-- Hover Text Tooltip -->
     <span class="mr-3 px-3 py-1.5 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 text-[11px] font-mono rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none hidden sm:block whitespace-nowrap">
       ⚡ Launch AI ALGOFORGE (Gemini)
     </span>
 
-    <!-- Circular Floating Button -->
     <button onclick="launchGeminiAIMentor()" class="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-600 via-indigo-600 to-purple-600 p-[2px] ai-floating-glow transition-all duration-300 group-hover:scale-110 active:scale-95 focus:outline-none">
       <div class="w-full h-full bg-slate-950 rounded-full flex flex-col items-center justify-center p-1 border border-cyan-400/40 hover:bg-slate-900 transition">
         <i data-lucide="bot" class="w-6 h-6 text-cyan-300"></i>
@@ -347,10 +354,64 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
     </div>
   </footer>
 
+  <!-- ======================================================== -->
+  <!-- CENTRAL CORPORATE DOCUMENTS VAULT MODAL -->
+  <!-- ======================================================== -->
+  <div id="documentsVaultModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl max-w-2xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('documentsVaultModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="p-3 bg-gradient-to-br from-indigo-600 to-amber-600 rounded-2xl shadow-lg text-white">
+          <i data-lucide="folder-lock" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white uppercase tracking-wider">AlgoForge Documents Vault</h3>
+          <p class="text-xs text-slate-400">Cryptographically Signed Verification Credentials</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+        <!-- Document 1: Certificate -->
+        <div onclick="generateCertificateDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/60 cursor-pointer group transition space-y-2">
+          <div class="flex items-center justify-between">
+            <i data-lucide="award" class="w-6 h-6 text-amber-400 group-hover:scale-110 transition"></i>
+            <span class="text-[9px] bg-amber-950 text-amber-400 border border-amber-800 px-1.5 py-0.5 rounded font-mono">SEALED</span>
+          </div>
+          <h4 class="font-bold text-white group-hover:text-amber-300">Mastery Certificate</h4>
+          <p class="text-slate-400 text-[11px] leading-relaxed">Official verified certificate with 3D gold wax seal and CEO signature.</p>
+          <span class="text-amber-400 text-[10px] font-bold block pt-1">Inspect &amp; Print &rarr;</span>
+        </div>
+
+        <!-- Document 2: Tech Resume -->
+        <div onclick="generateResumeDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-emerald-500/60 cursor-pointer group transition space-y-2">
+          <div class="flex items-center justify-between">
+            <i data-lucide="file-text" class="w-6 h-6 text-emerald-400 group-hover:scale-110 transition"></i>
+            <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded font-mono">ATS 1-PAGE</span>
+          </div>
+          <h4 class="font-bold text-white group-hover:text-emerald-300">ATS Tech Resume</h4>
+          <p class="text-slate-400 text-[11px] leading-relaxed">Executive 1-page resume dossier with verification QR &amp; signature.</p>
+          <span class="text-emerald-400 text-[10px] font-bold block pt-1">Inspect &amp; Print &rarr;</span>
+        </div>
+
+        <!-- Document 3: Candidate Reference Endorsement (Character Sketch) -->
+        <div onclick="generateEndorsementDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-cyan-500/60 cursor-pointer group transition space-y-2">
+          <div class="flex items-center justify-between">
+            <i data-lucide="award" class="w-6 h-6 text-cyan-400 group-hover:scale-110 transition"></i>
+            <span class="text-[9px] bg-cyan-950 text-cyan-400 border border-cyan-800 px-1.5 py-0.5 rounded font-mono">ENDORSEMENT</span>
+          </div>
+          <h4 class="font-bold text-white group-hover:text-cyan-300">Candidate Endorsement</h4>
+          <p class="text-slate-400 text-[11px] leading-relaxed">Corporate recommendation reference letter for recruiters &amp; interview panels.</p>
+          <span class="text-cyan-400 text-[10px] font-bold block pt-1">Inspect &amp; Print &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MULTI-LANGUAGE IN-BROWSER CODE EDITOR MODAL -->
   <div id="detailModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full p-6 space-y-4 shadow-2xl relative text-slate-100">
-      <button onclick="closeModal('detailModal'); stopTimer();" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
         <div>
@@ -361,28 +422,17 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           <h3 id="modalTitle" class="text-lg font-bold text-white mt-1">Problem Statement</h3>
         </div>
 
-        <div class="flex items-center gap-2">
-          <!-- Problem Modal specific Gemini Mentor trigger -->
-          <button onclick="launchGeminiAIMentorForProblem()" class="flex items-center gap-1.5 bg-gradient-to-r from-cyan-600/40 to-blue-600/40 border border-cyan-500/60 hover:border-cyan-400 text-cyan-200 text-xs px-3 py-1.5 rounded-xl transition font-bold shadow-sm">
-            <i data-lucide="sparkles" class="w-4 h-4 text-cyan-300"></i>
-            <span>Ask AI ALGOFORGE</span>
-          </button>
-
-          <div class="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-            <i data-lucide="clock" class="w-4 h-4 text-amber-400 animate-spin"></i>
-            <span id="timerCountdown" class="text-sm font-mono font-bold text-amber-400">25:00</span>
-            <button onclick="toggleTimer()" id="timerControlBtn" class="bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-200 px-2 py-1 rounded font-bold">PAUSE</button>
-          </div>
-        </div>
+        <button onclick="launchGeminiAIMentorForProblem()" class="flex items-center gap-1.5 bg-gradient-to-r from-cyan-600/40 to-blue-600/40 border border-cyan-500/60 hover:border-cyan-400 text-cyan-200 text-xs px-3 py-1.5 rounded-xl transition font-bold shadow-sm">
+          <i data-lucide="sparkles" class="w-4 h-4 text-cyan-300"></i>
+          <span>Ask AI ALGOFORGE</span>
+        </button>
       </div>
 
-      <!-- Algorithmic Intuition -->
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
         <p class="text-[10px] font-semibold text-slate-400 uppercase mb-1">Intuition &amp; Complexity Analysis</p>
         <p id="modalNotes" class="text-xs text-slate-300 whitespace-pre-line"></p>
       </div>
 
-      <!-- MULTI-LANGUAGE COMPILER INTERFACE -->
       <div class="space-y-2">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
@@ -397,7 +447,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-inner">
           <div class="bg-slate-900/80 px-4 py-1.5 border-b border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
             <span id="editorLanguageLabel" class="text-indigo-400 font-bold">solution.cpp</span>
-            <span>UTF-8 // Autocomplete Ready</span>
+            <span>UTF-8 Ready</span>
           </div>
           <textarea id="modalCodeEditor" rows="9" spellcheck="false" 
                     class="w-full bg-transparent text-emerald-300 font-mono text-xs p-4 focus:outline-none leading-relaxed resize-none"></textarea>
@@ -406,11 +456,274 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 
       <div class="pt-2 flex flex-col sm:flex-row gap-2">
         <button onclick="saveCurrentCodeSnippet()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition">
-          <i data-lucide="save" class="w-4 h-4"></i> Save Active Solution to Datastore
+          <i data-lucide="save" class="w-4 h-4"></i> Save Solution to Datastore
         </button>
         <a id="modalProblemLink" href="#" target="_blank" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-1.5">
           <i data-lucide="external-link" class="w-4 h-4"></i> Open Official LeetCode Link
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERNS FLASHCARDS MODAL -->
+  <div id="cheatSheetModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full p-6 md:p-8 space-y-5 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('cheatSheetModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="p-2.5 bg-indigo-600/30 border border-indigo-500/40 rounded-2xl text-indigo-400"><i data-lucide="book-open" class="w-6 h-6"></i></div>
+        <div>
+          <h3 class="text-base font-bold text-white uppercase tracking-wider">Algorithmic Patterns Flashcards</h3>
+          <p class="text-xs text-slate-400">Pre-Interview Mental Blueprints &amp; Invariants</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs max-h-[60vh] overflow-y-auto pr-1">
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1.5">
+          <span class="text-indigo-400 font-bold uppercase tracking-wider text-[11px] block">1. Two Pointers Convergence</span>
+          <p class="text-slate-300"><b>Trigger:</b> Sorted arrays/strings searching for pairs or palindromes.</p>
+          <p class="text-slate-400"><b>Invariant:</b> <code>left = 0, right = n - 1</code> while <code>left &lt; right</code>.</p>
+          <span class="text-emerald-400 font-mono text-[10px] block">Time: O(N) | Space: O(1)</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1.5">
+          <span class="text-indigo-400 font-bold uppercase tracking-wider text-[11px] block">2. Sliding Window</span>
+          <p class="text-slate-300"><b>Trigger:</b> Longest/shortest contiguous subarray condition.</p>
+          <p class="text-slate-400"><b>Invariant:</b> Expand <code>right</code>, shrink <code>left</code> while condition violated.</p>
+          <span class="text-emerald-400 font-mono text-[10px] block">Time: O(N) | Space: O(K)</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1.5">
+          <span class="text-indigo-400 font-bold uppercase tracking-wider text-[11px] block">3. Binary Search Space</span>
+          <p class="text-slate-300"><b>Trigger:</b> Monotonic condition or finding boundary value.</p>
+          <p class="text-slate-400"><b>Invariant:</b> <code>mid = left + (right - left) / 2</code>.</p>
+          <span class="text-emerald-400 font-mono text-[10px] block">Time: O(log N) | Space: O(1)</span>
+        </div>
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1.5">
+          <span class="text-indigo-400 font-bold uppercase tracking-wider text-[11px] block">4. Monotonic Stack</span>
+          <p class="text-slate-300"><b>Trigger:</b> Next Greater Element or Largest Rectangle.</p>
+          <p class="text-slate-400"><b>Invariant:</b> Pop smaller elements when higher arrives.</p>
+          <span class="text-emerald-400 font-mono text-[10px] block">Time: O(N) | Space: O(N)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLIND 75 CHECKLIST MODAL -->
+  <div id="blind75Modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 md:p-8 space-y-5 shadow-2xl relative text-slate-100">
+      <button onclick="closeModal('blind75Modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-cyan-600/30 border border-cyan-500/40 rounded-2xl text-cyan-400"><i data-lucide="list-checks" class="w-6 h-6"></i></div>
+          <div>
+            <h3 class="text-base font-bold text-white uppercase tracking-wider">Blind 75 Benchmark Matrix</h3>
+            <p class="text-xs text-slate-400">Industry-Standard High-Yield Interview Catalog</p>
+          </div>
+        </div>
+        <span id="modalBlind75Count" class="text-xs font-mono font-bold text-cyan-400 bg-cyan-950 border border-cyan-800 px-3 py-1 rounded-xl">0 / 17 Verified</span>
+      </div>
+
+      <div id="blind75ItemList" class="space-y-2 max-h-[55vh] overflow-y-auto pr-1"></div>
+    </div>
+  </div>
+
+  <!-- ATS TECH RESUME DOSSIER MODAL -->
+  <div id="resumeModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="printableResumeArea" class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-8 md:p-10 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
+      <button onclick="closeModal('resumeModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+
+      <div class="border-b border-slate-800 pb-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 id="resName" class="text-2xl md:text-3xl font-black text-white print-text-dark tracking-wide uppercase">Candidate Name</h2>
+          <p id="resRole" class="text-xs text-indigo-400 font-semibold tracking-wider mt-0.5 uppercase">Software Development Engineer</p>
+        </div>
+        <div class="text-right text-xs text-slate-400 font-mono print-text-dark">
+          <p id="resPhone">Tel: Not Registered</p>
+          <p id="resAuthStatus">Verified via AlgoForge Enterprise</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2 print-text-dark">Algorithmic Competency Summary</h4>
+        <div class="grid grid-cols-4 gap-3 text-center bg-slate-950 p-3.5 rounded-xl border border-slate-800 print-bg-light">
+          <div><p class="text-[10px] text-slate-400 font-bold uppercase">Total Solved</p><p id="resTotal" class="text-xl font-bold font-mono text-white print-text-dark">0</p></div>
+          <div><p class="text-[10px] text-emerald-400 font-bold uppercase">Easy</p><p id="resEasy" class="text-xl font-bold font-mono text-emerald-400">0</p></div>
+          <div><p class="text-[10px] text-amber-400 font-bold uppercase">Medium</p><p id="resMed" class="text-xl font-bold font-mono text-amber-400">0</p></div>
+          <div><p class="text-[10px] text-rose-400 font-bold uppercase">Hard</p><p id="resHard" class="text-xl font-bold font-mono text-rose-400">0</p></div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2 print-text-dark">Mastered Patterns &amp; Architecture</h4>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 print-bg-light text-xs text-slate-300 space-y-1.5 print-text-dark">
+          <p>• <b>Primary Programming Language:</b> <span id="resLang" class="text-indigo-400 font-mono">C++</span></p>
+          <p>• <b>Cognitive Memory Verification:</b> 5-Stage Retention Schedule (1d &rarr; 3d &rarr; 7d &rarr; 14d &rarr; 30d).</p>
+          <p>• <b>Demonstrated Patterns:</b> Two Pointers, Sliding Window, Monotonic Stacks, Binary Search Space, and Dynamic Programming.</p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2 print-text-dark">Selected Problem Statements Log</h4>
+        <div id="resProblemSampleList" class="space-y-1.5 max-h-36 overflow-hidden text-xs"></div>
+      </div>
+
+      <!-- Verified Corporate Footer with QR Code & Keshav Gupta Signature -->
+      <div class="border-t border-slate-800 pt-5 flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-3">
+          <div id="resumeQrBox" class="p-1.5 bg-white rounded-xl shadow-inner border border-slate-200"></div>
+          <div>
+            <p class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Verification Hash</p>
+            <p id="resCertId" class="text-[11px] font-mono text-slate-400 font-semibold"></p>
+            <p class="text-[9px] text-emerald-400 font-mono">Authenticity Certified</p>
+          </div>
+        </div>
+
+        <div class="text-right flex flex-col items-end">
+          <div class="font-signature text-3xl md:text-4xl text-indigo-300 print-text-dark tracking-wide select-none">Keshav Gupta</div>
+          <div class="w-36 h-[1.5px] bg-gradient-to-r from-transparent to-indigo-400 my-1"></div>
+          <p class="text-xs font-bold text-white print-text-dark">Keshav Gupta</p>
+          <p class="text-[9px] text-amber-400 font-semibold uppercase tracking-wider">CEO &amp; Lead Architect, AlgoForge</p>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-4 flex items-center justify-between no-print">
+        <span class="text-[11px] text-slate-500">ATS Single-Page PDF Format</span>
+        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-emerald-600/30">
+          <i data-lucide="printer" class="w-4 h-4"></i> Export 1-Page PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENT 3: OFFICIAL CANDIDATE ENDORSEMENT REFERENCE (CHARACTER SKETCH) -->
+  <div id="endorsementModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="printableEndorsementArea" class="bg-slate-900 border-2 border-cyan-500/40 rounded-3xl max-w-3xl w-full p-8 md:p-12 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
+      <button onclick="closeModal('endorsementModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+
+      <!-- Institutional Letterhead Header -->
+      <div class="border-b border-slate-800 pb-6 text-center space-y-1">
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <div class="p-2 bg-indigo-600 rounded-xl text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+          <span class="font-institution text-base font-bold tracking-widest text-indigo-300 print-text-dark uppercase">ALGOFORGE ENTERPRISE ACCREDITATION COUNCIL</span>
+        </div>
+        <h2 class="text-xl md:text-2xl font-black text-white print-text-dark uppercase tracking-tight">OFFICIAL CANDIDATE ENDORSEMENT &amp; TECHNICAL REFERENCE</h2>
+        <p class="text-[11px] text-slate-400 font-mono">DOCUMENT REFERENCE ID: <span id="endorsCertId" class="text-cyan-400 font-bold"></span></p>
+      </div>
+
+      <!-- Formal Letter Body -->
+      <div class="space-y-4 text-xs leading-relaxed text-slate-300 print-text-dark">
+        <p><b>TO WHOM IT MAY CONCERN / TECHNICAL HIRING COMMITTEE:</b></p>
+        
+        <p>
+          This official letter of technical endorsement serves as formal verification for candidate <b id="endorsCandidateName" class="text-white print-text-dark underline decoration-cyan-500 text-sm">Candidate</b> (Username: <span id="endorsUsername" class="text-cyan-400 font-mono font-bold">@candidate</span>), currently evaluated and verified under the rigorous algorithmic training standards of <b>AlgoForge Pro Enterprise</b>.
+        </p>
+
+        <p>
+          Over an extensive evaluation timeline, the candidate has consistently demonstrated exemplary problem-solving discipline, analytical intuition, and architectural aptitude targeting the corporate position of <b id="endorsTargetRole" class="text-white print-text-dark">Software Development Engineer</b> using <b id="endorsLanguage" class="text-indigo-400">C++</b> as their primary engineering runtime.
+        </p>
+
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 print-bg-light space-y-2">
+          <h4 class="font-bold text-amber-400 uppercase text-[11px]">Core Competency &amp; Cognitive Character Highlights:</h4>
+          <ul class="space-y-1.5 list-disc pl-4 text-slate-300 print-text-dark">
+            <li><b>Cognitive Retention Discipline:</b> Successfully trained and reviewed under staged mathematical spaced-repetition cycles (1d, 3d, 7d, 14d, 30d), proving long-term concept permanence rather than short-term rote memorization.</li>
+            <li><b>Algorithmic Versatility:</b> Demonstrates independent problem formulation across critical domains including Two Pointers, Dynamic Programming, Monotonic Stacks, and Binary Search boundaries.</li>
+            <li><b>Engineering Tenacity:</b> Shows persistent dedication to optimal asymptotic complexities (Time O(N) / Space O(1)) and rigorous edge-case handling under mock pressure constraints.</li>
+          </ul>
+        </div>
+
+        <p>
+          Based on verified datastore records and continuous execution consistency, AlgoForge Enterprise affirms that <span id="endorsRefName" class="font-bold text-white print-text-dark">this candidate</span> possesses the requisite algorithmic maturity, technical work ethic, and cognitive fortitude required for high-velocity software engineering teams. We wholeheartedly recommend their candidacy.
+        </p>
+      </div>
+
+      <!-- Institutional Sign-Off Section -->
+      <div class="border-t border-slate-800 pt-6 flex items-center justify-between flex-wrap gap-4">
+        <!-- Unique Dynamic QR Code -->
+        <div class="flex items-center gap-3">
+          <div id="endorsQrBox" class="p-1.5 bg-white rounded-xl shadow-inner border border-slate-200"></div>
+          <div>
+            <p class="text-[9px] font-bold text-cyan-400 uppercase tracking-wider">Institutional QR Seal</p>
+            <p class="text-[9px] text-slate-400 font-mono">Scan for Global Verification</p>
+            <p id="endorsTimestamp" class="text-[9px] text-emerald-400 font-mono font-semibold"></p>
+          </div>
+        </div>
+
+        <!-- Corporate Stamp & Keshav Gupta Authority Name -->
+        <div class="text-right flex flex-col items-end">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Authorized By Authority:</div>
+          <div class="text-lg md:text-xl font-bold text-white print-text-dark tracking-wide font-institution">
+            KESHAV GUPTA
+          </div>
+          <div class="w-44 h-[1.5px] bg-gradient-to-r from-transparent to-cyan-500 my-1"></div>
+          <p class="text-xs font-semibold text-slate-300 print-text-dark">Founder &amp; Chief Executive Officer</p>
+          <p class="text-[10px] text-cyan-400 font-mono">AlgoForge Pro Enterprise Technologies</p>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-4 flex items-center justify-between no-print">
+        <span class="text-[11px] text-slate-500">Official Institutional Letterhead Reference</span>
+        <button onclick="window.print()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-cyan-600/30">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print Official Endorsement (PDF)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFICIAL CERTIFICATE MODAL -->
+  <div id="reportCardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="certificatePrintArea" class="bg-slate-900 border-4 border-double border-indigo-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-10 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
+      <button onclick="closeModal('reportCardModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+
+      <div class="text-center border-b border-indigo-500/30 pb-6 relative">
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <i data-lucide="shield-check" class="w-8 h-8 text-amber-400"></i>
+          <span class="text-[11px] tracking-[0.3em] font-extrabold uppercase text-amber-400">ALGOFORGE ENTERPRISE // GLOBAL ACCREDITATION</span>
+        </div>
+        <h2 class="text-3xl font-black text-white print-text-dark uppercase mt-1">Certificate of Algorithmic Mastery</h2>
+        <p class="text-xs text-indigo-300 font-mono mt-1">AUTONOMOUS SPACED REPETITION PROTOCOL</p>
+      </div>
+
+      <div class="text-center px-4 space-y-1">
+        <p class="text-xs text-slate-400 uppercase tracking-wider">This officially certifies that</p>
+        <h3 id="repName" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-purple-300 print-text-dark">Candidate</h3>
+        <p class="text-xs text-slate-300 max-w-xl mx-auto">Demonstrated cognitive retention in DSA targeting <b id="repRole" class="text-white print-text-dark">Software Development Engineer</b> using <b id="repLanguage" class="text-indigo-400">C++</b>.</p>
+      </div>
+
+      <div class="grid grid-cols-4 gap-3 text-center bg-slate-950/70 p-4 rounded-2xl border border-slate-800 print-bg-light">
+        <div><p class="text-[10px] text-slate-400 uppercase font-bold">Total</p><p id="repTotalSolved" class="text-xl font-black text-indigo-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-emerald-400 uppercase font-bold">Easy</p><p id="repEasy" class="text-xl font-black text-emerald-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-amber-400 uppercase font-bold">Medium</p><p id="repMed" class="text-xl font-black text-amber-400 mt-0.5">0</p></div>
+        <div><p class="text-[10px] text-rose-400 uppercase font-bold">Hard</p><p id="repHard" class="text-xl font-black text-rose-400 mt-0.5">0</p></div>
+      </div>
+
+      <div class="border-t border-indigo-500/30 pt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
+        <div class="flex items-center gap-3">
+          <div id="qrcodeBox" class="p-1.5 bg-white rounded-xl"></div>
+          <div>
+            <p class="text-[10px] font-bold text-amber-400 uppercase">Verification</p>
+            <p id="repCertId" class="text-[11px] font-mono text-slate-400 font-semibold"></p>
+            <p id="repTimestamp" class="text-[10px] text-emerald-400 font-mono"></p>
+          </div>
+        </div>
+        <div class="text-center hidden md:flex flex-col items-center justify-center">
+          <div class="w-16 h-16 rounded-full gold-wax-seal flex flex-col items-center justify-center text-amber-950 font-black">
+            <span class="text-[9px] uppercase font-extrabold">VERIFIED</span>
+            <span class="text-lg leading-none">★</span>
+            <span class="text-[8px] uppercase font-bold">SEAL</span>
+          </div>
+        </div>
+        <div class="text-right flex flex-col items-end">
+          <div class="font-signature text-3xl text-indigo-300 print-text-dark select-none">Keshav Gupta</div>
+          <p class="text-xs font-bold text-white print-text-dark">Keshav Gupta</p>
+          <p class="text-[10px] text-amber-400 font-semibold uppercase">Founder &amp; CEO</p>
+        </div>
+      </div>
+
+      <div class="no-print pt-4 flex items-center justify-between border-t border-slate-800">
+        <span class="text-[10px] text-slate-500">Official Dossier</span>
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print Certificate
+        </button>
       </div>
     </div>
   </div>
@@ -500,62 +813,9 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         <h4 class="text-xs font-bold uppercase text-slate-400 mb-2">Execution Log</h4>
         <div id="drawerProblemHistory" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
       </div>
-      <div class="border-t border-slate-800 pt-3 flex justify-end">
+      <div class="border-t border-slate-800 pt-3 flex justify-between items-center">
+        <button onclick="handleUserLogout()" class="text-rose-400 hover:underline text-xs">End Active Session</button>
         <button onclick="closeModal('userHistoryModal')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2 rounded-xl text-slate-200">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CERTIFICATE MODAL -->
-  <div id="reportCardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div id="certificatePrintArea" class="bg-slate-900 border-4 border-double border-indigo-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-10 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
-      <button onclick="closeModal('reportCardModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
-      <div class="text-center border-b border-indigo-500/30 pb-6 relative">
-        <div class="flex items-center justify-center gap-2 mb-1">
-          <i data-lucide="shield-check" class="w-8 h-8 text-amber-400"></i>
-          <span class="text-[11px] tracking-[0.3em] font-extrabold uppercase text-amber-400">ALGOFORGE ENTERPRISE // ACCREDITATION</span>
-        </div>
-        <h2 class="text-3xl font-black text-white print-text-dark uppercase mt-1">Certificate of Algorithmic Mastery</h2>
-        <p class="text-xs text-indigo-300 font-mono mt-1">AUTONOMOUS SPACED REPETITION PROTOCOL</p>
-      </div>
-      <div class="text-center px-4 space-y-1">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">This officially certifies that</p>
-        <h3 id="repName" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-purple-300 print-text-dark">Candidate</h3>
-        <p class="text-xs text-slate-300 max-w-xl mx-auto">Demonstrated cognitive retention in DSA targeting <b id="repRole" class="text-white print-text-dark">Software Development Engineer</b> using <b id="repLanguage" class="text-indigo-400">C++</b>.</p>
-      </div>
-      <div class="grid grid-cols-4 gap-3 text-center bg-slate-950/70 p-4 rounded-2xl border border-slate-800 print-bg-light">
-        <div><p class="text-[10px] text-slate-400 uppercase font-bold">Total</p><p id="repTotalSolved" class="text-xl font-black text-indigo-400 mt-0.5">0</p></div>
-        <div><p class="text-[10px] text-emerald-400 uppercase font-bold">Easy</p><p id="repEasy" class="text-xl font-black text-emerald-400 mt-0.5">0</p></div>
-        <div><p class="text-[10px] text-amber-400 uppercase font-bold">Medium</p><p id="repMed" class="text-xl font-black text-amber-400 mt-0.5">0</p></div>
-        <div><p class="text-[10px] text-rose-400 uppercase font-bold">Hard</p><p id="repHard" class="text-xl font-black text-rose-400 mt-0.5">0</p></div>
-      </div>
-      <div class="border-t border-indigo-500/30 pt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6">
-        <div class="flex items-center gap-3">
-          <div id="qrcodeBox" class="p-1.5 bg-white rounded-xl"></div>
-          <div>
-            <p class="text-[10px] font-bold text-amber-400 uppercase">Verification</p>
-            <p id="repCertId" class="text-[11px] font-mono text-slate-400 font-semibold"></p>
-            <p id="repTimestamp" class="text-[10px] text-emerald-400 font-mono"></p>
-          </div>
-        </div>
-        <div class="text-center hidden md:flex flex-col items-center justify-center">
-          <div class="w-16 h-16 rounded-full gold-wax-seal flex flex-col items-center justify-center text-amber-950 font-black">
-            <span class="text-[9px] uppercase font-extrabold">VERIFIED</span>
-            <span class="text-lg leading-none">★</span>
-            <span class="text-[8px] uppercase font-bold">SEAL</span>
-          </div>
-        </div>
-        <div class="text-right flex flex-col items-end">
-          <div class="font-signature text-3xl text-indigo-300 print-text-dark select-none">Keshav Gupta</div>
-          <p class="text-xs font-bold text-white print-text-dark">Keshav Gupta</p>
-          <p class="text-[10px] text-amber-400 font-semibold uppercase">Founder &amp; CEO</p>
-        </div>
-      </div>
-      <div class="no-print pt-4 flex items-center justify-between border-t border-slate-800">
-        <span class="text-[10px] text-slate-500">Official Dossier</span>
-        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
-          <i data-lucide="printer" class="w-4 h-4"></i> Print Dossier (PDF)
-        </button>
       </div>
     </div>
   </div>
@@ -582,14 +842,10 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
     let currentActiveProblemId = null;
     let currentActiveLanguage = "cpp";
 
-    let timerInterval = null;
-    let timeRemaining = 1500;
-    let isTimerRunning = false;
-
     const BOILERPLATES = {
-      cpp: `#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass Solution {\npublic:\n    // Optimal C++ Logic\n};\n`,
-      python: `class Solution:\n    def solve(self) -> None:\n        # Optimal Python Logic\n        pass\n`,
-      java: `import java.util.*;\n\nclass Solution {\n    public void solve() {\n        // Optimal Java Logic\n    }\n}\n`
+      cpp: `#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass Solution {\npublic:\n    // Optimal C++ Solution\n};\n`,
+      python: `class Solution:\n    def solve(self) -> None:\n        # Optimal Python Solution\n        pass\n`,
+      java: `import java.util.*;\n\nclass Solution {\n    public void solve() {\n        // Optimal Java Solution\n    }\n}\n`
     };
 
     const difficultyColors = {
@@ -600,9 +856,9 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 
     const consolePhrases = [
       "SYSTEM_STATUS: ONLINE",
-      "AI_ALGOFORGE: READY (GEMINI NEURAL CORE)",
-      "MULTI_LANGUAGE_COMPILER: ACTIVE (C++ | PYTHON | JAVA)",
-      "LEETCODE_AUTOPILOT: SYNCHRONIZED"
+      "DOCUMENTS_VAULT: CRYPTOGRAPHICALLY SECURED",
+      "ENDORSEMENT_ENGINE: READY",
+      "MULTI_LANGUAGE_COMPILER: ACTIVE"
     ];
     let phraseIndex = 0, charIndex = 0, isDeleting = false;
     function runRoboticTypewriter() {
@@ -654,6 +910,41 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       } catch(e) {}
     }
 
+    async function loadBlind75Progress() {
+      try {
+        const res = await fetch('/api/blind75');
+        const data = await res.json();
+        document.getElementById('blind75Percent').innerText = `${data.percentage}%`;
+        document.getElementById('blind75ProgressBar').style.width = `${data.percentage}%`;
+        document.getElementById('blind75Ratio').innerText = `${data.completed} of ${data.total} Core Benchmarks Verified`;
+        document.getElementById('modalBlind75Count').innerText = `${data.completed} / ${data.total} Verified`;
+
+        const listEl = document.getElementById('blind75ItemList');
+        listEl.innerHTML = data.items.map(item => `
+          <div class="flex items-center justify-between p-3 rounded-xl border ${item.completed ? 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300' : 'bg-slate-950 border-slate-800 text-slate-300'}">
+            <div>
+              <span class="font-bold text-xs">#${item.num}. ${item.title}</span>
+              <div class="flex items-center gap-1.5 mt-0.5">
+                <span class="text-[9px] px-1.5 rounded border ${difficultyColors[item.difficulty]}">${item.difficulty}</span>
+                <span class="text-[9px] text-slate-400 font-mono">${item.pattern}</span>
+              </div>
+            </div>
+            <div>
+              ${item.completed 
+                ? '<span class="text-xs font-bold text-emerald-400 flex items-center gap-1">✓ Solved</span>' 
+                : `<button onclick="quickCommitBlind75('${item.num}')" class="text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-lg">Solve</button>`}
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {}
+    }
+
+    async function quickCommitBlind75(num) {
+      closeModal('blind75Modal');
+      document.getElementById('leetcodeQuery').value = num;
+      document.getElementById('problemForm').dispatchEvent(new Event('submit'));
+    }
+
     function filterByPattern(pattern) {
       activePatternFilter = pattern;
       document.getElementById('activePatternFilterLabel').innerText = `Viewing: ${pattern}`;
@@ -665,49 +956,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         }
       });
       loadData();
-    }
-
-    function startTimer(minutes) {
-      clearInterval(timerInterval);
-      timeRemaining = minutes * 60;
-      isTimerRunning = true;
-      document.getElementById('timerControlBtn').innerText = "PAUSE";
-      updateTimerDisplay();
-      timerInterval = setInterval(() => {
-        if (timeRemaining <= 0) {
-          clearInterval(timerInterval);
-          alert("Mock Interview Countdown Finished! Analyze complexity.");
-        } else {
-          timeRemaining--;
-          updateTimerDisplay();
-        }
-      }, 1000);
-    }
-
-    function updateTimerDisplay() {
-      const m = Math.floor(timeRemaining / 60);
-      const s = timeRemaining % 60;
-      document.getElementById('timerCountdown').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-
-    function toggleTimer() {
-      if (isTimerRunning) {
-        clearInterval(timerInterval);
-        isTimerRunning = false;
-        document.getElementById('timerControlBtn').innerText = "RESUME";
-      } else {
-        isTimerRunning = true;
-        document.getElementById('timerControlBtn').innerText = "PAUSE";
-        timerInterval = setInterval(() => {
-          if (timeRemaining <= 0) clearInterval(timerInterval);
-          else { timeRemaining--; updateTimerDisplay(); }
-        }, 1000);
-      }
-    }
-
-    function stopTimer() {
-      clearInterval(timerInterval);
-      isTimerRunning = false;
     }
 
     async function renderCalendar() {
@@ -778,12 +1026,29 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       const res = await fetch(url);
       currentUserProfile = await res.json();
 
-      document.getElementById('profName').innerText = currentUserProfile.name;
-      document.getElementById('drawerName').innerText = currentUserProfile.name;
-      document.getElementById('repName').innerText = currentUserProfile.name;
-      document.getElementById('navUserName').innerText = activeUser ? currentUserProfile.name : "Sign In";
-      document.getElementById('profRole').innerText = `Role: ${currentUserProfile.target_role}`;
-      document.getElementById('profLanguage').innerText = currentUserProfile.primary_language;
+      if (currentUserProfile.authenticated) {
+        isUserAuthenticated = true;
+        document.getElementById('profName').innerText = currentUserProfile.name;
+        document.getElementById('drawerName').innerText = currentUserProfile.name;
+        document.getElementById('navUserName').innerText = currentUserProfile.name;
+        document.getElementById('profRole').innerText = `Role: ${currentUserProfile.target_role}`;
+        document.getElementById('profLanguage').innerText = currentUserProfile.primary_language;
+        document.getElementById('profLevelBadge').innerText = "Verified Candidate";
+        document.getElementById('profLevelBadge').className = "text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-400";
+        document.getElementById('authStatusBadge').innerText = "Active Session ✓";
+        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
+      } else {
+        isUserAuthenticated = false;
+        document.getElementById('profName').innerText = "Guest Candidate";
+        document.getElementById('drawerName').innerText = "Guest Candidate";
+        document.getElementById('navUserName').innerText = "Sign In";
+        document.getElementById('profRole').innerText = "Role: Locked";
+        document.getElementById('profLanguage').innerText = "--";
+        document.getElementById('profLevelBadge').innerText = "Locked";
+        document.getElementById('profLevelBadge').className = "text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-400";
+        document.getElementById('authStatusBadge').innerText = "Session Locked";
+        document.getElementById('authStatusBadge').className = "text-[10px] text-amber-400 font-bold";
+      }
 
       const recRes = await fetch(`/recommendations/?pattern=${activePatternFilter}`);
       const recs = await recRes.json();
@@ -823,6 +1088,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       loadData();
       renderCalendar();
       loadStreak();
+      loadBlind75Progress();
     }
 
     async function fetchRandomChallenge() {
@@ -910,7 +1176,26 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       lucide.createIcons();
     }
 
-    async function generateReportCard() {
+    function handleUserLogout() {
+      if (confirm("End current candidate session and lock workspace?")) {
+        localStorage.removeItem("active_user");
+        isUserAuthenticated = false;
+        closeModal('userHistoryModal');
+        loadProfileAndRecs();
+        loadData();
+      }
+    }
+
+    // VAULT MODAL CONTROL
+    function openDocumentsVaultModal() {
+      if (!requireAuthentication()) return;
+      document.getElementById('documentsVaultModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // 1. Official Mastery Certificate Generator
+    async function generateCertificateDossier() {
+      closeModal('documentsVaultModal');
       const activeUser = localStorage.getItem("active_user");
       let url = '/profile/';
       if (activeUser) url += `?username=${encodeURIComponent(activeUser)}`;
@@ -922,7 +1207,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       const now = new Date();
       const exactDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
       const exactTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const certId = `CERT-AF-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+      const certId = `CERT-AF-${Math.random().toString(36).substr(2, 7).toUpperCase()}`;
 
       document.getElementById('repName').innerText = prof.name;
       document.getElementById('repRole').innerText = prof.target_role;
@@ -938,7 +1223,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       const qrBox = document.getElementById('qrcodeBox');
       qrBox.innerHTML = "";
       new QRCode(qrBox, {
-        text: `https://algoforge.enterprise/verify/${certId}?candidate=${encodeURIComponent(prof.name)}&time=${encodeURIComponent(exactDate + ' ' + exactTime)}&auth=KeshavGuptaCEO`,
+        text: `https://algoforge.enterprise/verify/${certId}?candidate=${encodeURIComponent(prof.name)}&auth=KeshavGuptaCEO`,
         width: 68,
         height: 68
       });
@@ -947,16 +1232,76 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       lucide.createIcons();
     }
 
-    async function purgeAllRecords() {
-      if (!requireAuthentication()) return;
-      if (confirm("Execute complete datastore wipe?")) {
-        await fetch('/problems/all/purge', { method: 'DELETE' });
-        loadData();
-        renderCalendar();
-        loadStreak();
-      }
+    // 2. ATS Tech Resume Dossier Generator
+    function generateResumeDossier() {
+      closeModal('documentsVaultModal');
+      document.getElementById('resName').innerText = currentUserProfile.name;
+      document.getElementById('resRole').innerText = currentUserProfile.target_role;
+      document.getElementById('resPhone').innerText = `Tel: ${currentUserProfile.phone_number || "Verified in Datastore"}`;
+      document.getElementById('resLang').innerText = currentUserProfile.primary_language;
+
+      const easy = cachedProblems.filter(p => p.difficulty === "Easy").length;
+      const med = cachedProblems.filter(p => p.difficulty === "Medium").length;
+      const hard = cachedProblems.filter(p => p.difficulty === "Hard").length;
+
+      document.getElementById('resTotal').innerText = cachedProblems.length;
+      document.getElementById('resEasy').innerText = easy;
+      document.getElementById('resMed').innerText = med;
+      document.getElementById('resHard').innerText = hard;
+
+      const resumeCertId = `RESUME-AF-${Math.random().toString(36).substr(2, 7).toUpperCase()}`;
+      document.getElementById('resCertId').innerText = resumeCertId;
+
+      const resumeQrBox = document.getElementById('resumeQrBox');
+      resumeQrBox.innerHTML = "";
+      new QRCode(resumeQrBox, {
+        text: `https://algoforge.enterprise/resume/${resumeCertId}?user=${encodeURIComponent(currentUserProfile.username)}&auth=KeshavGuptaCEO`,
+        width: 58,
+        height: 58
+      });
+
+      const sampleList = document.getElementById('resProblemSampleList');
+      sampleList.innerHTML = cachedProblems.slice(0, 5).map(p => `
+        <div class="flex justify-between items-center border-b border-slate-800/60 pb-1">
+          <span class="font-medium">${p.title}</span>
+          <span class="text-[10px] font-mono text-slate-400">${p.pattern_tag || p.topic}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('resumeModal').classList.remove('hidden');
+      lucide.createIcons();
     }
 
+    // 3. Official Candidate Endorsement (Character Sketch & Reference)
+    function generateEndorsementDossier() {
+      closeModal('documentsVaultModal');
+      const now = new Date();
+      const exactDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      const exactTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      const endorseId = `ENDORSE-AF-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+
+      document.getElementById('endorsCertId').innerText = endorseId;
+      document.getElementById('endorsCandidateName').innerText = currentUserProfile.name;
+      document.getElementById('endorsRefName').innerText = currentUserProfile.name;
+      document.getElementById('endorsUsername').innerText = `@${currentUserProfile.username || 'candidate'}`;
+      document.getElementById('endorsTargetRole').innerText = currentUserProfile.target_role;
+      document.getElementById('endorsLanguage').innerText = currentUserProfile.primary_language;
+      document.getElementById('endorsTimestamp').innerText = `Issued: ${exactDate} [${exactTime} IST]`;
+
+      const endorsQrBox = document.getElementById('endorsQrBox');
+      endorsQrBox.innerHTML = "";
+      new QRCode(endorsQrBox, {
+        text: `https://algoforge.enterprise/endorsement/${endorseId}?candidate=${encodeURIComponent(currentUserProfile.name)}&sign=KeshavGuptaCEO`,
+        width: 60,
+        height: 60
+      });
+
+      document.getElementById('endorsementModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openCheatSheetModal() { document.getElementById('cheatSheetModal').classList.remove('hidden'); }
+    function openBlind75Modal() { loadBlind75Progress(); document.getElementById('blind75Modal').classList.remove('hidden'); }
     function openAboutModal() { document.getElementById('aboutModal').classList.remove('hidden'); }
     function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -982,11 +1327,10 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         const data = await res.json();
         isUserAuthenticated = true;
         localStorage.setItem("active_user", data.username);
-        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
-        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
         closeModal('authModal');
         await loadProfileAndRecs();
         await loadData();
+        await loadBlind75Progress();
       } else alert("Invalid credentials.");
     }
 
@@ -1013,11 +1357,10 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         alert(`Account registered successfully for ${data.name}!`);
         isUserAuthenticated = true;
         localStorage.setItem("active_user", data.username);
-        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
-        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
         closeModal('authModal');
         await loadProfileAndRecs();
         await loadData();
+        await loadBlind75Progress();
       } else {
         const err = await res.json();
         alert(`Registration rejected: ${err.detail}`);
@@ -1070,8 +1413,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       if (p.problem_url) { linkBtn.href = p.problem_url; linkBtn.classList.remove('hidden'); } else linkBtn.classList.add('hidden');
 
       switchLanguageTab("cpp");
-      const timeMap = { Easy: 15, Medium: 25, Hard: 45 };
-      startTimer(timeMap[p.difficulty] || 25);
       document.getElementById('detailModal').classList.remove('hidden');
     }
 
@@ -1094,16 +1435,11 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       }
     }
 
-    // ==========================================
-    // DIRECT GEMINI AI MENTOR INTEGRATION
-    // ==========================================
-    // 1. General Floating AI Button Click -> Opens Gemini AI Interface
     function launchGeminiAIMentor() {
       const defaultPrompt = encodeURIComponent("Hey Gemini, you are my Algorithmic and DSA Mentor on AlgoForge Pro. Help me understand data structures, pattern logic, and optimal code complexities.");
       window.open(`https://gemini.google.com/app?prompt=${defaultPrompt}`, '_blank');
     }
 
-    // 2. Problem-specific Gemini Click -> Pre-fills problem statement & optimal query
     function launchGeminiAIMentorForProblem() {
       const p = cachedProblems.find(x => x.id === currentActiveProblemId);
       if (!p) return launchGeminiAIMentor();
@@ -1111,7 +1447,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       window.open(`https://gemini.google.com/app?prompt=${specificPrompt}`, '_blank');
     }
 
-    // AUTOMATED ONE-CLICK LEETCODE PROBLEM COMMIT HANDLER
     document.getElementById('problemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!requireAuthentication()) return;
@@ -1143,13 +1478,14 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         });
 
         document.getElementById('problemForm').reset();
-        btnText.innerText = "Auto-Fetch & Commit to Bank";
+        btnText.innerText = "Commit to Solved Bank";
         loadData();
         renderCalendar();
         loadStreak();
+        loadBlind75Progress();
       } catch (err) {
         alert("Failed to resolve LeetCode problem. Check number or connection.");
-        btnText.innerText = "Auto-Fetch & Commit to Bank";
+        btnText.innerText = "Commit to Solved Bank";
       }
     });
 
@@ -1158,6 +1494,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       await fetch(`/problems/${id}/revise`, { method: 'PUT' });
       loadData();
       loadStreak();
+      loadBlind75Progress();
     }
 
     async function deleteProblem(id) {
@@ -1167,21 +1504,18 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         loadData();
         renderCalendar();
         loadStreak();
+        loadBlind75Progress();
       }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('theme_state') === 'light') applyTheme(true);
-      if (localStorage.getItem("active_user")) {
-        isUserAuthenticated = true;
-        document.getElementById('authStatusBadge').innerText = "Session Authenticated ✓";
-        document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
-      }
       runRoboticTypewriter();
       loadStreak();
       loadProfileAndRecs();
       renderCalendar();
       loadData();
+      loadBlind75Progress();
     });
   </script>
 </body>
