@@ -1,58 +1,21 @@
 # ==============================================================================
-# Project: AlgoForge Pro Enterprise (Official Corporate Vault Edition)
+# Project: AlgoForge Pro Enterprise (MongoDB Atlas Edition)
 # Author & Copyright Owner: Keshav Gupta (c) 2026
 # All Rights Reserved.
 # ==============================================================================
 import os
 import hashlib
-import sqlite3
 import json
 import urllib.request
 from datetime import date, timedelta
-from typing import Optional, List
-from fastapi import FastAPI, Depends, HTTPException, status, Query
-from fastapi.responses import FileResponse, JSONResponse
-from sqlalchemy.orm import Session
-from sqlalchemy import func
+from typing import Optional
+from bson import ObjectId
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import FileResponse
 
-from database import engine, Base, get_db
-import models
-import schemas
+from database import users_collection, problems_collection, daily_targets_collection
 
-def auto_patch_database():
-    db_file = "dsa_tracker.db"
-    if os.path.exists(db_file):
-        try:
-            conn = sqlite3.connect(db_file)
-            cursor = conn.cursor()
-            
-            cursor.execute("PRAGMA table_info(user_profile)")
-            user_cols = [row[1] for row in cursor.fetchall()]
-            if "phone_number" not in user_cols:
-                cursor.execute("ALTER TABLE user_profile ADD COLUMN phone_number VARCHAR")
-                
-            cursor.execute("PRAGMA table_info(problems)")
-            prob_cols = [row[1] for row in cursor.fetchall()]
-            new_cols = [
-                ("code_cpp", "TEXT"),
-                ("code_python", "TEXT"),
-                ("code_java", "TEXT"),
-                ("code_snippet", "TEXT"),
-                ("pattern_tag", "VARCHAR DEFAULT 'General'")
-            ]
-            for col_name, col_type in new_cols:
-                if col_name not in prob_cols:
-                    cursor.execute(f"ALTER TABLE problems ADD COLUMN {col_name} {col_type}")
-                
-            conn.commit()
-            conn.close()
-        except Exception as e:
-            print(f"Migration Notice: {e}")
-
-auto_patch_database()
-Base.metadata.create_all(bind=engine)
-
-app = FastAPI(title="AlgoForge Pro Enterprise")
+app = FastAPI(title="AlgoForge Pro Enterprise - MongoDB Live")
 
 LEETCODE_GLOBAL_CACHE = {}
 
@@ -164,7 +127,7 @@ async def leetcode_lookup(query: str):
     return {"status": "success", "title": formatted_title, "topic": "Algorithms", "difficulty": "Medium", "pattern": "LeetCode Direct", "url": f"https://leetcode.com/problems/{slug}/"}
 
 @app.get("/profile/")
-def get_profile(username: Optional[str] = Query(None), db: Session = Depends(get_db)):
+async def get_profile(username: Optional[str] = Query(None)):
     if not username:
         return {
             "authenticated": False,
@@ -177,8 +140,8 @@ def get_profile(username: Optional[str] = Query(None), db: Session = Depends(get
             "phone_number": "Not Registered"
         }
 
-    prof = db.query(models.UserProfile).filter(models.UserProfile.username == username).first()
-    if not prof:
+    user = await users_collection.find_one({"username": username})
+    if not user:
         return {
             "authenticated": False,
             "name": "Guest Candidate",
@@ -192,83 +155,214 @@ def get_profile(username: Optional[str] = Query(None), db: Session = Depends(get
 
     return {
         "authenticated": True,
-        "id": prof.id,
-        "name": prof.name,
-        "username": prof.username,
-        "solved_count": prof.solved_count,
-        "target_role": prof.target_role,
-        "primary_language": prof.primary_language,
-        "experience_level": prof.experience_level,
-        "phone_number": getattr(prof, "phone_number", "Verified") or "Verified"
+        "name": user.get("name", "Candidate"),
+        "username": user.get("username"),
+        "solved_count": user.get("solved_count", 0),
+        "target_role": user.get("target_role", "Software Development Engineer"),
+        "primary_language": user.get("primary_language", "C++"),
+        "experience_level": user.get("experience_level", "Verified Candidate"),
+        "phone_number": user.get("phone_number", "Verified")
     }
 
 @app.post("/auth/login")
-def login(creds: schemas.UserLogin, db: Session = Depends(get_db)):
-    user = db.query(models.UserProfile).filter(models.UserProfile.username == creds.username).first()
-    if not user or not verify_password(user.hashed_password, creds.password):
+async def login(creds: dict):
+    username = creds.get("username")
+    password = creds.get("password")
+    user = await users_collection.find_one({"username": username})
+    if not user or not verify_password(user.get("hashed_password", ""), password):
         raise HTTPException(status_code=401, detail="Invalid username or password")
-    return {"message": "Success", "username": user.username, "name": user.name}
+    return {"message": "Success", "username": user["username"], "name": user["name"]}
 
 @app.post("/auth/register")
-def register(user_data: dict, db: Session = Depends(get_db)):
+async def register(user_data: dict):
     username = user_data.get("username", "").strip()
     if not username:
         raise HTTPException(status_code=400, detail="Username is required")
 
-    existing = db.query(models.UserProfile).filter(models.UserProfile.username == username).first()
+    existing = await users_collection.find_one({"username": username})
     if existing:
         raise HTTPException(status_code=400, detail="Username is already claimed")
-    
-    new_user = models.UserProfile(
-        username=username,
-        hashed_password=hash_password(user_data.get("password", "defaultpass")),
-        name=user_data.get("name", "Candidate"),
-        phone_number=user_data.get("phone_number", ""),
-        primary_language=user_data.get("primary_language", "C++"),
-        solved_count=int(user_data.get("solved_count", 0)),
-        target_role=user_data.get("target_role", "Software Development Engineer")
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return {"message": "Account created successfully", "username": new_user.username, "name": new_user.name}
+
+    doc = {
+        "username": username,
+        "hashed_password": hash_password(user_data.get("password", "defaultpass")),
+        "name": user_data.get("name", "Candidate"),
+        "phone_number": user_data.get("phone_number", ""),
+        "primary_language": user_data.get("primary_language", "C++"),
+        "solved_count": int(user_data.get("solved_count", 0)),
+        "target_role": user_data.get("target_role", "Software Development Engineer"),
+        "experience_level": "Verified Candidate"
+    }
+    await users_collection.insert_one(doc)
+    return {"message": "Account created successfully", "username": username, "name": doc["name"]}
 
 @app.get("/streak/calculate/")
-def get_streak(db: Session = Depends(get_db)):
-    records = db.query(models.Problem.solved_date).distinct().order_by(models.Problem.solved_date.desc()).all()
-    dates = [r[0] for r in records if r[0]]
+async def get_streak():
+    cursor = problems_collection.find({}, {"solved_date": 1})
+    dates = set()
+    async for doc in cursor:
+        if doc.get("solved_date"):
+            dates.add(doc["solved_date"])
+
     if not dates:
         return {"current_streak": 0}
 
     streak = 0
-    today = date.today()
-    check_date = today if today in dates else today - timedelta(days=1)
+    today = str(date.today())
+    yesterday = str(date.today() - timedelta(days=1))
+    check_date = date.today() if today in dates else date.today() - timedelta(days=1)
 
-    while check_date in dates:
+    while str(check_date) in dates:
         streak += 1
         check_date -= timedelta(days=1)
 
     return {"current_streak": streak}
 
 @app.get("/calendar/activity/")
-def get_calendar_activity(db: Session = Depends(get_db)):
-    records = db.query(models.Problem.solved_date, func.count(models.Problem.id)).group_by(models.Problem.solved_date).all()
-    return {str(d): count for d, count in records if d}
+async def get_calendar_activity():
+    cursor = problems_collection.find({}, {"solved_date": 1})
+    activity = {}
+    async for doc in cursor:
+        d = doc.get("solved_date")
+        if d:
+            activity[d] = activity.get(d, 0) + 1
+    return activity
 
 @app.get("/target/")
-def get_target(db: Session = Depends(get_db)):
-    today = date.today()
-    target = db.query(models.DailyTarget).filter(models.DailyTarget.target_date == today).first()
+async def get_target():
+    today_str = str(date.today())
+    target = await daily_targets_collection.find_one({"target_date": today_str})
     if not target:
-        target = models.DailyTarget(target_date=today, target_count=3, completed_count=0)
-        db.add(target)
-        db.commit()
-        db.refresh(target)
-    
-    solved_today = db.query(models.Problem).filter(models.Problem.solved_date == today).count()
-    target.completed_count = solved_today
-    db.commit()
-    return {"target_count": target.target_count, "completed_count": target.completed_count}
+        target = {"target_date": today_str, "target_count": 3, "completed_count": 0}
+        await daily_targets_collection.insert_one(target)
+
+    solved_today = await problems_collection.count_documents({"solved_date": today_str})
+    await daily_targets_collection.update_one({"target_date": today_str}, {"$set": {"completed_count": solved_today}})
+    return {"target_count": target.get("target_count", 3), "completed_count": solved_today}
+
+@app.get("/problems/")
+async def get_problems(solved_date: Optional[str] = None, pattern: Optional[str] = None):
+    query = {}
+    if solved_date:
+        query["solved_date"] = solved_date
+    if pattern and pattern != "ALL":
+        query["pattern_tag"] = pattern
+
+    cursor = problems_collection.find(query).sort("_id", -1)
+    results = []
+    async for p in cursor:
+        results.append({
+            "id": str(p["_id"]),
+            "title": p.get("title"),
+            "topic": p.get("topic"),
+            "difficulty": p.get("difficulty"),
+            "platform": p.get("platform", "LeetCode"),
+            "problem_url": p.get("problem_url"),
+            "notes": p.get("notes"),
+            "code_cpp": p.get("code_cpp", ""),
+            "code_python": p.get("code_python", ""),
+            "code_java": p.get("code_java", ""),
+            "pattern_tag": p.get("pattern_tag", "General"),
+            "solved_date": p.get("solved_date"),
+            "next_review_date": p.get("next_review_date"),
+            "revision_count": p.get("revision_count", 0)
+        })
+    return results
+
+@app.get("/problems/due-today/")
+async def get_due_problems():
+    today_str = str(date.today())
+    cursor = problems_collection.find({"next_review_date": {"$lte": today_str}})
+    results = []
+    async for p in cursor:
+        results.append({
+            "id": str(p["_id"]),
+            "title": p.get("title"),
+            "topic": p.get("topic"),
+            "difficulty": p.get("difficulty"),
+            "platform": p.get("platform", "LeetCode"),
+            "problem_url": p.get("problem_url"),
+            "notes": p.get("notes"),
+            "code_cpp": p.get("code_cpp", ""),
+            "code_python": p.get("code_python", ""),
+            "code_java": p.get("code_java", ""),
+            "pattern_tag": p.get("pattern_tag", "General"),
+            "solved_date": p.get("solved_date"),
+            "next_review_date": p.get("next_review_date"),
+            "revision_count": p.get("revision_count", 0)
+        })
+    return results
+
+@app.post("/problems/")
+async def add_problem(problem: dict):
+    today = date.today()
+    doc = {
+        "title": problem.get("title"),
+        "platform": "LeetCode",
+        "topic": problem.get("topic", "Algorithms"),
+        "difficulty": problem.get("difficulty", "Medium"),
+        "problem_url": problem.get("problem_url"),
+        "notes": problem.get("notes"),
+        "code_cpp": problem.get("code_cpp", ""),
+        "code_python": problem.get("code_python", ""),
+        "code_java": problem.get("code_java", ""),
+        "pattern_tag": problem.get("pattern_tag", "General"),
+        "solved_date": str(today),
+        "next_review_date": str(today + timedelta(days=1)),
+        "revision_count": 0
+    }
+    result = await problems_collection.insert_one(doc)
+    return {"message": "Success", "id": str(result.inserted_id)}
+
+@app.put("/problems/{problem_id}/code")
+async def update_problem_code(problem_id: str, payload: dict):
+    try:
+        oid = ObjectId(problem_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    lang = payload.get("language", "cpp").lower()
+    code = payload.get("code", "")
+    field = f"code_{lang}"
+    await problems_collection.update_one({"_id": oid}, {"$set": {field: code}})
+    return {"message": f"{lang.upper()} solution committed to MongoDB"}
+
+@app.put("/problems/{problem_id}/revise")
+async def mark_revised(problem_id: str):
+    try:
+        oid = ObjectId(problem_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    prob = await problems_collection.find_one({"_id": oid})
+    if not prob:
+        raise HTTPException(status_code=404, detail="Problem not found")
+
+    stages = [1, 3, 7, 14, 30]
+    next_step = prob.get("revision_count", 0) + 1
+    interval = stages[min(next_step, len(stages) - 1)]
+    next_review = str(date.today() + timedelta(days=interval))
+
+    await problems_collection.update_one(
+        {"_id": oid},
+        {"$set": {"revision_count": next_step, "next_review_date": next_review}}
+    )
+    return {"message": "Revised successfully"}
+
+@app.delete("/problems/{problem_id}")
+async def delete_problem(problem_id: str):
+    try:
+        oid = ObjectId(problem_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    await problems_collection.delete_one({"_id": oid})
+    return {"message": "Deleted"}
+
+@app.delete("/problems/all/purge")
+async def purge_all():
+    await problems_collection.delete_many({})
+    return {"message": "Purged all"}
 
 BLIND75_DATABASE = [
     {"num": "1", "title": "Two Sum", "topic": "Arrays & Hashing", "difficulty": "Easy", "pattern": "Two Pointers"},
@@ -291,8 +385,9 @@ BLIND75_DATABASE = [
 ]
 
 @app.get("/api/blind75")
-def get_blind75_status(db: Session = Depends(get_db)):
-    solved_titles = [p.title.lower() for p in db.query(models.Problem.title).all()]
+async def get_blind75_status():
+    cursor = problems_collection.find({}, {"title": 1})
+    solved_titles = [doc.get("title", "").lower() async for doc in cursor]
     annotated = []
     completed_count = 0
     for item in BLIND75_DATABASE:
@@ -323,124 +418,3 @@ def get_recommendations(pattern: Optional[str] = None):
 def get_random_challenge():
     import random
     return random.choice(RESERVOIR)
-
-@app.get("/problems/")
-def get_problems(solved_date: Optional[str] = None, pattern: Optional[str] = None, db: Session = Depends(get_db)):
-    query = db.query(models.Problem)
-    if solved_date:
-        query = query.filter(models.Problem.solved_date == solved_date)
-    if pattern and pattern != "ALL":
-        query = query.filter(models.Problem.pattern_tag == pattern)
-    
-    probs = query.order_by(models.Problem.id.desc()).all()
-    return [
-        {
-            "id": p.id,
-            "title": p.title,
-            "topic": p.topic,
-            "difficulty": p.difficulty,
-            "platform": p.platform,
-            "problem_url": p.problem_url,
-            "notes": p.notes,
-            "code_cpp": p.code_cpp or "",
-            "code_python": p.code_python or "",
-            "code_java": p.code_java or "",
-            "pattern_tag": p.pattern_tag,
-            "solved_date": str(p.solved_date),
-            "next_review_date": str(p.next_review_date),
-            "revision_count": p.revision_count
-        } for p in probs
-    ]
-
-@app.get("/problems/due-today/")
-def get_due_problems(db: Session = Depends(get_db)):
-    today = date.today()
-    probs = db.query(models.Problem).filter(models.Problem.next_review_date <= today).all()
-    return [
-        {
-            "id": p.id,
-            "title": p.title,
-            "topic": p.topic,
-            "difficulty": p.difficulty,
-            "platform": p.platform,
-            "problem_url": p.problem_url,
-            "notes": p.notes,
-            "code_cpp": p.code_cpp or "",
-            "code_python": p.code_python or "",
-            "code_java": p.code_java or "",
-            "pattern_tag": p.pattern_tag,
-            "solved_date": str(p.solved_date),
-            "next_review_date": str(p.next_review_date),
-            "revision_count": p.revision_count
-        } for p in probs
-    ]
-
-@app.post("/problems/")
-def add_problem(problem: dict, db: Session = Depends(get_db)):
-    today = date.today()
-    new_prob = models.Problem(
-        title=problem.get("title"),
-        platform="LeetCode",
-        topic=problem.get("topic", "Algorithms"),
-        difficulty=problem.get("difficulty", "Medium"),
-        problem_url=problem.get("problem_url"),
-        notes=problem.get("notes"),
-        code_cpp=problem.get("code_cpp", ""),
-        code_python=problem.get("code_python", ""),
-        code_java=problem.get("code_java", ""),
-        pattern_tag=problem.get("pattern_tag", "General"),
-        solved_date=today,
-        next_review_date=today + timedelta(days=1),
-        revision_count=0
-    )
-    db.add(new_prob)
-    db.commit()
-    db.refresh(new_prob)
-    return {"message": "Success", "id": new_prob.id}
-
-@app.put("/problems/{problem_id}/code")
-def update_problem_code(problem_id: int, payload: dict, db: Session = Depends(get_db)):
-    prob = db.query(models.Problem).filter(models.Problem.id == problem_id).first()
-    if not prob:
-        raise HTTPException(status_code=404, detail="Problem not found")
-    
-    lang = payload.get("language", "cpp").lower()
-    code = payload.get("code", "")
-
-    if lang == "cpp":
-        prob.code_cpp = code
-    elif lang == "python":
-        prob.code_python = code
-    elif lang == "java":
-        prob.code_java = code
-
-    db.commit()
-    return {"message": f"{lang.upper()} solution committed to datastore"}
-
-@app.put("/problems/{problem_id}/revise")
-def mark_revised(problem_id: int, db: Session = Depends(get_db)):
-    prob = db.query(models.Problem).filter(models.Problem.id == problem_id).first()
-    if not prob:
-        raise HTTPException(status_code=404, detail="Problem not found")
-    stages = [1, 3, 7, 14, 30]
-    next_step = prob.revision_count + 1
-    interval = stages[min(next_step, len(stages) - 1)]
-    prob.revision_count = next_step
-    prob.next_review_date = date.today() + timedelta(days=interval)
-    db.commit()
-    return {"message": "Revised successfully"}
-
-@app.delete("/problems/{problem_id}")
-def delete_problem(problem_id: int, db: Session = Depends(get_db)):
-    prob = db.query(models.Problem).filter(models.Problem.id == problem_id).first()
-    if not prob:
-        raise HTTPException(status_code=404, detail="Problem not found")
-    db.delete(prob)
-    db.commit()
-    return {"message": "Deleted"}
-
-@app.delete("/problems/all/purge")
-def purge_all(db: Session = Depends(get_db)):
-    db.query(models.Problem).delete()
-    db.commit()
-    return {"message": "Purged all"}

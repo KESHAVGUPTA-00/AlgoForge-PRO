@@ -4,3 +4,5 @@ sqlalchemy
 pydantic
 jinja2
 httpx
+motor
+pymongo

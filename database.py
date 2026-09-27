@@ -4,22 +4,35 @@
 # All Rights Reserved. Unauthorized copying, distribution, or claiming authorship
 # of this software architecture is strictly prohibited by copyright law.
 # ==============================================================================
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+# ==============================================================================
+# Project: AlgoForge Pro Enterprise
+# Author: Keshav Gupta (c) 2026
+# ==============================================================================
+# ==============================================================================
+# Project: AlgoForge Pro Enterprise
+# Author: Keshav Gupta (c) 2026
+# ==============================================================================
+import os
+import urllib.parse
+from motor.motor_asyncio import AsyncIOMotorClient
 
-# Ye file automatically tere folder me 'dsa_tracker.db' bana degi
-SQLALCHEMY_DATABASE_URL = "sqlite:///./dsa_tracker.db"
+# Yahan apna username aur password alag-alag variable me rakho
+DB_USER = "keshav99"
+# Apna naya password yahan quotes ke andar likho:
+RAW_PASSWORD = "Keshav2007"  # Replace with your actual password
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# Special characters ko safely escape/encode karega
+ESCAPED_PASSWORD = urllib.parse.quote_plus(RAW_PASSWORD)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+# Cluster URL safe string
+DEFAULT_URI = f"mongodb+srv://{DB_USER}:{ESCAPED_PASSWORD}@cluster0.kserwpm.mongodb.net/?appName=Cluster0"
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+MONGO_URI = os.getenv("MONGO_URI", DEFAULT_URI)
+
+client = AsyncIOMotorClient(MONGO_URI)
+db = client["algoforge_prod_db"]
+
+# Persistent Collections
+users_collection = db["users"]
+problems_collection = db["problems"]
+daily_targets_collection = db["daily_targets"]
