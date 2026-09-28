@@ -129,9 +129,15 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           </button>
 
           <!-- Account Sign In -->
-          <button onclick="openAuthModal()" class="flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+          <button onclick="openAuthModal()" id="navAuthBtn" class="flex items-center gap-2 bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
             <i data-lucide="shield-check" class="w-4 h-4"></i>
             <span id="navUserName">Sign In</span>
+          </button>
+
+          <!-- DIRECT HEADER LOGOUT BUTTON (Only visible when logged in) -->
+          <button onclick="handleUserLogout()" id="navLogoutBtn" class="hidden flex items-center gap-1.5 bg-rose-950/30 border border-rose-800/60 hover:bg-rose-900/50 text-rose-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span>Logout</span>
           </button>
         </div>
       </div>
@@ -372,7 +378,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
-        <!-- Document 1: Certificate -->
         <div onclick="generateCertificateDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/60 cursor-pointer group transition space-y-2">
           <div class="flex items-center justify-between">
             <i data-lucide="award" class="w-6 h-6 text-amber-400 group-hover:scale-110 transition"></i>
@@ -383,7 +388,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           <span class="text-amber-400 text-[10px] font-bold block pt-1">Inspect &amp; Print &rarr;</span>
         </div>
 
-        <!-- Document 2: Tech Resume -->
         <div onclick="generateResumeDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-emerald-500/60 cursor-pointer group transition space-y-2">
           <div class="flex items-center justify-between">
             <i data-lucide="file-text" class="w-6 h-6 text-emerald-400 group-hover:scale-110 transition"></i>
@@ -394,7 +398,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           <span class="text-emerald-400 text-[10px] font-bold block pt-1">Inspect &amp; Print &rarr;</span>
         </div>
 
-        <!-- Document 3: Candidate Reference Endorsement (Character Sketch) -->
         <div onclick="generateEndorsementDossier()" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-cyan-500/60 cursor-pointer group transition space-y-2">
           <div class="flex items-center justify-between">
             <i data-lucide="award" class="w-6 h-6 text-cyan-400 group-hover:scale-110 transition"></i>
@@ -595,12 +598,11 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
     </div>
   </div>
 
-  <!-- DOCUMENT 3: OFFICIAL CANDIDATE ENDORSEMENT REFERENCE (CHARACTER SKETCH) -->
+  <!-- DOCUMENT 3: OFFICIAL CANDIDATE ENDORSEMENT REFERENCE -->
   <div id="endorsementModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
     <div id="printableEndorsementArea" class="bg-slate-900 border-2 border-cyan-500/40 rounded-3xl max-w-3xl w-full p-8 md:p-12 space-y-6 shadow-2xl relative text-slate-100 print-text-dark">
       <button onclick="closeModal('endorsementModal')" class="no-print absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
 
-      <!-- Institutional Letterhead Header -->
       <div class="border-b border-slate-800 pb-6 text-center space-y-1">
         <div class="flex items-center justify-center gap-2 mb-1">
           <div class="p-2 bg-indigo-600 rounded-xl text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
@@ -610,7 +612,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         <p class="text-[11px] text-slate-400 font-mono">DOCUMENT REFERENCE ID: <span id="endorsCertId" class="text-cyan-400 font-bold"></span></p>
       </div>
 
-      <!-- Formal Letter Body -->
       <div class="space-y-4 text-xs leading-relaxed text-slate-300 print-text-dark">
         <p><b>TO WHOM IT MAY CONCERN / TECHNICAL HIRING COMMITTEE:</b></p>
         
@@ -636,9 +637,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         </p>
       </div>
 
-      <!-- Institutional Sign-Off Section -->
       <div class="border-t border-slate-800 pt-6 flex items-center justify-between flex-wrap gap-4">
-        <!-- Unique Dynamic QR Code -->
         <div class="flex items-center gap-3">
           <div id="endorsQrBox" class="p-1.5 bg-white rounded-xl shadow-inner border border-slate-200"></div>
           <div>
@@ -648,7 +647,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
           </div>
         </div>
 
-        <!-- Corporate Stamp & Keshav Gupta Authority Name -->
         <div class="text-right flex flex-col items-end">
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Authorized By Authority:</div>
           <div class="text-lg md:text-xl font-bold text-white print-text-dark tracking-wide font-institution">
@@ -814,7 +812,9 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         <div id="drawerProblemHistory" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
       </div>
       <div class="border-t border-slate-800 pt-3 flex justify-between items-center">
-        <button onclick="handleUserLogout()" class="text-rose-400 hover:underline text-xs">End Active Session</button>
+        <button onclick="handleUserLogout()" class="text-rose-400 hover:underline text-xs flex items-center gap-1 font-semibold">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> End Active Session
+        </button>
         <button onclick="closeModal('userHistoryModal')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2 rounded-xl text-slate-200">Close</button>
       </div>
     </div>
@@ -947,7 +947,6 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
 
     function filterByPattern(pattern) {
       activePatternFilter = pattern;
-      document.getElementById('activePatternFilterLabel').innerText = `Viewing: ${pattern}`;
       document.querySelectorAll('.pattern-pill').forEach(btn => {
         if(btn.innerText.includes(pattern) || (pattern === "ALL" && btn.innerText === "All")) {
           btn.className = "pattern-pill active px-2.5 py-1 text-[11px] rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium transition";
@@ -1026,6 +1025,8 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       const res = await fetch(url);
       currentUserProfile = await res.json();
 
+      const logoutBtn = document.getElementById('navLogoutBtn');
+
       if (currentUserProfile.authenticated) {
         isUserAuthenticated = true;
         document.getElementById('profName').innerText = currentUserProfile.name;
@@ -1037,6 +1038,8 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         document.getElementById('profLevelBadge').className = "text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-400";
         document.getElementById('authStatusBadge').innerText = "Active Session ✓";
         document.getElementById('authStatusBadge').className = "text-[10px] text-emerald-400 font-bold";
+        
+        if (logoutBtn) logoutBtn.classList.remove('hidden');
       } else {
         isUserAuthenticated = false;
         document.getElementById('profName').innerText = "Guest Candidate";
@@ -1048,6 +1051,8 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
         document.getElementById('profLevelBadge').className = "text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-400";
         document.getElementById('authStatusBadge').innerText = "Session Locked";
         document.getElementById('authStatusBadge').className = "text-[10px] text-amber-400 font-bold";
+        
+        if (logoutBtn) logoutBtn.classList.add('hidden');
       }
 
       const recRes = await fetch(`/recommendations/?pattern=${activePatternFilter}`);
@@ -1176,13 +1181,21 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       lucide.createIcons();
     }
 
-    function handleUserLogout() {
+    // ROBUST LOGOUT IMPLEMENTATION (Used by both Header button and Drawer)
+    async function handleUserLogout() {
       if (confirm("End current candidate session and lock workspace?")) {
+        try {
+          await fetch('/api/logout', { method: 'POST' }).catch(() => {});
+        } catch (e) {}
+        
         localStorage.removeItem("active_user");
+        sessionStorage.clear();
         isUserAuthenticated = false;
+
         closeModal('userHistoryModal');
-        loadProfileAndRecs();
-        loadData();
+        await loadProfileAndRecs();
+        await loadData();
+        await loadBlind75Progress();
       }
     }
 
@@ -1272,7 +1285,7 @@ Architect & Owner: Keshav Gupta (c) 2026. All Rights Reserved.
       lucide.createIcons();
     }
 
-    // 3. Official Candidate Endorsement (Character Sketch & Reference)
+    // 3. Official Candidate Endorsement
     function generateEndorsementDossier() {
       closeModal('documentsVaultModal');
       const now = new Date();
